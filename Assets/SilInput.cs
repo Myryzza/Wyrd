@@ -359,7 +359,7 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8e9d4fe7-76b7-4086-88d9-41eed8795a8f"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -380,8 +380,8 @@ public class @SilInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9e73465a-5bbe-4a7e-8234-1a417134a2b3"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""2561d679-d743-4d37-ae65-475afff3fd8c"",
+                    ""path"": ""<VirtualMouse>/radius"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

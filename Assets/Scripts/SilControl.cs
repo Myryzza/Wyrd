@@ -57,6 +57,16 @@ public class SilControl : MonoBehaviour
 
     [Header("Dash Variables")]
     //dash variables
+    public int maxDash;
+    private int dashCount;
+    public float dashSpeed;
+    private float dashDir;
+    public float dashLength;
+    private bool startDash;
+    private bool endDash;
+    public float setDashTimer;
+    private float dashTimer;
+    private bool startDashTimer;
 
 
 
@@ -155,8 +165,19 @@ public class SilControl : MonoBehaviour
 
     private void DashPerformed(InputAction.CallbackContext obj)
     {
-        
+        /*
+        if (dashCount > 0)
+        {
+            silRb.velocity = new Vector2(silRb.velocity.x + (dashDir * dashSpeed), 0);
+            dashCount -= 1;
+        }
+        */
 
+        if (dashCount > 0)
+        {
+            startDash = true;
+            dashCount -= 1;
+        }
 
     }
 
@@ -256,6 +277,10 @@ public class SilControl : MonoBehaviour
         silRb = sil.GetComponent<Rigidbody2D>();
         jumpTimer = setJumpTimer;
 
+        //initializes dashes
+        dashCount = maxDash;
+        dashTimer = setDashTimer;
+
     }
     #endregion
 
@@ -311,6 +336,17 @@ public class SilControl : MonoBehaviour
 
         #region dash stuff
 
+        dashDir = Mathf.Sign(leftStick.x);
+
+        if (startDashTimer)
+        {
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0)
+            {
+                endDash = true;
+            }
+        }
+
         #endregion
 
         #region speed limits
@@ -363,14 +399,19 @@ public class SilControl : MonoBehaviour
         
         if (right > 0)
         {
-            silRb.velocity = new Vector2(Mathf.Clamp(silRb.velocity.x + setWalkMoveSpeed, -speedLimitX, speedLimitX),
-                silRb.velocity.y);
+            if (silRb.velocity.x < speedLimitX)
+            {
+                silRb.velocity = new Vector2(silRb.velocity.x + setWalkMoveSpeed, silRb.velocity.y);
+            }
         }
         
         if (left > 0)
         {
-            silRb.velocity = new Vector2(Mathf.Clamp(silRb.velocity.x - setWalkMoveSpeed, -speedLimitX, speedLimitX),
-                silRb.velocity.y);
+
+            if (silRb.velocity.x > -speedLimitX)
+            {
+                silRb.velocity = new Vector2(silRb.velocity.x - setWalkMoveSpeed, silRb.velocity.y);
+            }
         }
         
         if (silRb.velocity.x > 0.1)
@@ -390,7 +431,6 @@ public class SilControl : MonoBehaviour
             startJumpTimer = true;
             silRb.gravityScale = jumpGravScale;
             silRb.velocity = new Vector2(silRb.velocity.x, jumpHeight);
-            //silRb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
             startJump = false;
         }
         //end the jump
@@ -405,6 +445,22 @@ public class SilControl : MonoBehaviour
 
         #region Dash Mechanics
 
+        //start dash
+        if (startDash == true)
+        {
+            startDashTimer = true;
+            silRb.gravityScale = 0;
+            silRb.velocity = new Vector2(dashDir * dashSpeed, 0);
+            startDash = false;
+        }
+        //end dash
+        if (endDash == true)
+        {
+            endDash = false;
+            silRb.gravityScale = resetGravScale;
+            dashTimer = setDashTimer;
+            startDashTimer = false;
+        }
 
 
         #endregion
@@ -430,11 +486,13 @@ public class SilControl : MonoBehaviour
         {
             onFloor = true;
             airJumpCount = multiJump;
+            dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Wall"))
         {
             onWall = true;
             airJumpCount = multiJump;
+            dashCount = maxDash;
         }
     }
 
