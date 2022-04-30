@@ -348,7 +348,9 @@ MonoBehaviour:
   setWallCoyoteTime: 30
   setFloorCoyoteTime: 30
   maxDash: 1
-  dashSpeed: 25
+  dashSpeed: 30
+  dashLength: 30
+  setDashTimer: 0
   speedLimitX: 6
   speedLimitY: 12
   normFallSpeed: 12

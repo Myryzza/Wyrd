@@ -60,11 +60,11 @@ public class SilControl : MonoBehaviour
     public int maxDash;
     private int dashCount;
     public float dashSpeed;
-    private float dashDir;
+    private Vector2 dashDir;
     public float dashLength;
     private bool startDash;
     private bool endDash;
-    public float setDashTimer;
+    private float setDashTimer;
     private float dashTimer;
     private bool startDashTimer;
 
@@ -336,7 +336,7 @@ public class SilControl : MonoBehaviour
 
         #region dash stuff
 
-        dashDir = Mathf.Sign(leftStick.x);
+        dashDir = new Vector2(Mathf.Sign(right - left), Mathf.Sign(up - down));
 
         if (startDashTimer)
         {
@@ -385,7 +385,7 @@ public class SilControl : MonoBehaviour
 
         if (testTimer <= 0)
         {
-            Debug.Log("Insert Variable Here");
+            Debug.Log(dashDir);
             testTimer = setTestTimer;
         }
 
@@ -450,7 +450,7 @@ public class SilControl : MonoBehaviour
         {
             startDashTimer = true;
             silRb.gravityScale = 0;
-            silRb.velocity = new Vector2(dashDir * dashSpeed, 0);
+            silRb.velocity = new Vector2(dashDir.x * dashSpeed, 0);
             startDash = false;
         }
         //end dash
