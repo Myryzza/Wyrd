@@ -69,7 +69,13 @@ public class SilControl : MonoBehaviour
     private bool startDashTimer;
     public float longJumpDistance;
 
-
+    [Header("Tether Variables")]
+    //tether variables
+    private bool canBash;
+    private Rigidbody2D bashTarget;
+    private bool bashing;
+    public float bashSpeed;
+    public float bashVOffset;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -103,6 +109,7 @@ public class SilControl : MonoBehaviour
     private float jump;
     private float glide;
     private float dash;
+    private float tether;
 
     #endregion
 
@@ -155,7 +162,42 @@ public class SilControl : MonoBehaviour
         input.Normal.Dash.performed += context => dash = context.ReadValue<float>();
         input.Normal.Dash.canceled += context => dash = 0;
 
+        input.Normal.Tether.performed += TetherPerformed;
+        input.Normal.Tether.canceled += TetherCanceled;
+        input.Normal.Tether.performed += context => tether = context.ReadValue<float>();
+        input.Normal.Tether.canceled += context => tether = 0;
+
     }
+
+    
+    private void TetherCanceled(InputAction.CallbackContext obj)
+    {
+
+        if (bashing == true)
+        {
+
+            bashing = false;
+            
+            silRb.velocity = new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset);
+            //silRb.AddForce(new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset));
+            silRb.gravityScale = resetGravScale;
+
+        }
+
+    }
+
+    private void TetherPerformed(InputAction.CallbackContext obj)
+    {
+        /*
+        if (canBash == true && bashTarget != null)
+        {
+
+            bashing = true;
+
+        }
+        */
+    }
+    
 
     /*
     private void DashCanceled(InputAction.CallbackContext obj)
@@ -166,13 +208,7 @@ public class SilControl : MonoBehaviour
 
     private void DashPerformed(InputAction.CallbackContext obj)
     {
-        /*
-        if (dashCount > 0)
-        {
-            silRb.velocity = new Vector2(silRb.velocity.x + (dashDir * dashSpeed), 0);
-            dashCount -= 1;
-        }
-        */
+        
 
         if (dashCount > 0)
         {
@@ -354,6 +390,22 @@ public class SilControl : MonoBehaviour
             }
         }
 
+        #region tether stuff
+
+        if (tether > 0)
+        {
+            if (canBash == true && bashTarget != null)
+            {
+
+                bashing = true;
+                airJumpCount = multiJump;
+                dashCount = maxDash;
+
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region speed limits
@@ -381,11 +433,13 @@ public class SilControl : MonoBehaviour
             speedLimitY = wallSlideSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
         }
+        /*
         else
         {
             speedLimitY = normFallSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
         }
+        */
         #endregion
 
         testTimer -= 1;
@@ -469,6 +523,17 @@ public class SilControl : MonoBehaviour
             startDashTimer = false;
         }
 
+        #region tether mechanics
+
+        if (bashing == true)
+        {
+
+            silRb.velocity = new Vector2(0, 0);
+            silRb.gravityScale = 0;
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -524,9 +589,34 @@ public class SilControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "ResetTrigger")
         {
+
             hazardResetPos = collision.gameObject.GetComponent<ResetTriggerScript>().respawnPos;
+
+        }
+
+        if (collision.gameObject.tag == "Bashable")
+        {
+
+            canBash = true;
+            bashTarget = GetComponentInParent<Rigidbody2D>();
+
         }
     }
+
+    //manage collision checks with bashable objects
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        
+        if (collision.gameObject.tag == "Bashable")
+        {
+
+            canBash = false;
+            bashTarget = null;
+
+        }
+
+    }
+
 
     #endregion
 

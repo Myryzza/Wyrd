@@ -89,6 +89,14 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Tether"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ba7b89d-b9c5-45eb-b17e-1cf1424062e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -399,6 +407,28 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""action"": ""LeftStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1d45d54-3757-45a0-a139-513cc0228609"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tether"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d9bb165e-06bd-4a8a-8305-9dbe005ff948"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tether"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -416,6 +446,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         m_Normal_Glide = m_Normal.FindAction("Glide", throwIfNotFound: true);
         m_Normal_Dash = m_Normal.FindAction("Dash", throwIfNotFound: true);
         m_Normal_RightStick = m_Normal.FindAction("RightStick", throwIfNotFound: true);
+        m_Normal_Tether = m_Normal.FindAction("Tether", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -474,6 +505,7 @@ public class @SilInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Normal_Glide;
     private readonly InputAction m_Normal_Dash;
     private readonly InputAction m_Normal_RightStick;
+    private readonly InputAction m_Normal_Tether;
     public struct NormalActions
     {
         private @SilInput m_Wrapper;
@@ -487,6 +519,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         public InputAction @Glide => m_Wrapper.m_Normal_Glide;
         public InputAction @Dash => m_Wrapper.m_Normal_Dash;
         public InputAction @RightStick => m_Wrapper.m_Normal_RightStick;
+        public InputAction @Tether => m_Wrapper.m_Normal_Tether;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -523,6 +556,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @RightStick.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnRightStick;
                 @RightStick.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnRightStick;
                 @RightStick.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnRightStick;
+                @Tether.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
+                @Tether.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
+                @Tether.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -554,6 +590,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @RightStick.started += instance.OnRightStick;
                 @RightStick.performed += instance.OnRightStick;
                 @RightStick.canceled += instance.OnRightStick;
+                @Tether.started += instance.OnTether;
+                @Tether.performed += instance.OnTether;
+                @Tether.canceled += instance.OnTether;
             }
         }
     }
@@ -569,5 +608,6 @@ public class @SilInput : IInputActionCollection, IDisposable
         void OnGlide(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnRightStick(InputAction.CallbackContext context);
+        void OnTether(InputAction.CallbackContext context);
     }
 }
