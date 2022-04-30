@@ -67,6 +67,7 @@ public class SilControl : MonoBehaviour
     private float setDashTimer;
     private float dashTimer;
     private bool startDashTimer;
+    public float longJumpDistance;
 
 
 
@@ -215,6 +216,12 @@ public class SilControl : MonoBehaviour
             startJump = true;
             airJumpCount -= 1;
         }
+
+        if (startDashTimer == true)
+        {
+            silRb.velocity = new Vector2(silRb.velocity.x * longJumpDistance, silRb.velocity.y);
+        }
+
     }
 
     /*
@@ -279,7 +286,7 @@ public class SilControl : MonoBehaviour
 
         //initializes dashes
         dashCount = maxDash;
-        dashTimer = setDashTimer;
+        dashTimer = dashLength;
 
     }
     #endregion
@@ -458,7 +465,7 @@ public class SilControl : MonoBehaviour
         {
             endDash = false;
             silRb.gravityScale = resetGravScale;
-            dashTimer = setDashTimer;
+            dashTimer = dashLength;
             startDashTimer = false;
         }
 
