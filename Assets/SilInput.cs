@@ -19,14 +19,6 @@ public class @SilInput : IInputActionCollection, IDisposable
             ""id"": ""b43f5e45-e197-421a-8aaa-00b2225bef39"",
             ""actions"": [
                 {
-                    ""name"": ""LeftStick"",
-                    ""type"": ""Value"",
-                    ""id"": ""030cb698-219e-454e-b37c-c8c4b8882548"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Right"",
                     ""type"": ""Button"",
                     ""id"": ""e5afd90b-fe1e-4689-9fcd-ebb1555aa18e"",
@@ -278,80 +270,14 @@ public class @SilInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""62000f32-db9c-4204-a2c7-7dd103941990"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""id"": ""4776e4bd-07c3-4d9a-b4e8-6cd292b84551"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftStick"",
+                    ""action"": ""Glide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2d881517-3dc9-4596-b2de-14dbba93157f"",
-                    ""path"": ""<Gamepad>/dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""c1f2c9d3-aa0a-48f8-ad39-a4bc78229984"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""c7a39bfa-78ac-46e1-824a-feef78b7b384"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""88974a5a-9b4c-4422-b832-5f81bf96030d"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""96a97a80-885a-478a-8b94-5a82c8f63d70"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""c17f60d6-1bd7-46a0-a080-035c00b7b309"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -399,17 +325,6 @@ public class @SilInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""08b3bf65-4721-4140-9a24-e1ded5b63321"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f1d45d54-3757-45a0-a139-513cc0228609"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -437,7 +352,6 @@ public class @SilInput : IInputActionCollection, IDisposable
 }");
         // Normal
         m_Normal = asset.FindActionMap("Normal", throwIfNotFound: true);
-        m_Normal_LeftStick = m_Normal.FindAction("LeftStick", throwIfNotFound: true);
         m_Normal_Right = m_Normal.FindAction("Right", throwIfNotFound: true);
         m_Normal_Left = m_Normal.FindAction("Left", throwIfNotFound: true);
         m_Normal_Up = m_Normal.FindAction("Up", throwIfNotFound: true);
@@ -496,7 +410,6 @@ public class @SilInput : IInputActionCollection, IDisposable
     // Normal
     private readonly InputActionMap m_Normal;
     private INormalActions m_NormalActionsCallbackInterface;
-    private readonly InputAction m_Normal_LeftStick;
     private readonly InputAction m_Normal_Right;
     private readonly InputAction m_Normal_Left;
     private readonly InputAction m_Normal_Up;
@@ -510,7 +423,6 @@ public class @SilInput : IInputActionCollection, IDisposable
     {
         private @SilInput m_Wrapper;
         public NormalActions(@SilInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftStick => m_Wrapper.m_Normal_LeftStick;
         public InputAction @Right => m_Wrapper.m_Normal_Right;
         public InputAction @Left => m_Wrapper.m_Normal_Left;
         public InputAction @Up => m_Wrapper.m_Normal_Up;
@@ -529,9 +441,6 @@ public class @SilInput : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_NormalActionsCallbackInterface != null)
             {
-                @LeftStick.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLeftStick;
-                @LeftStick.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLeftStick;
-                @LeftStick.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLeftStick;
                 @Right.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnRight;
                 @Right.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnRight;
                 @Right.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnRight;
@@ -563,9 +472,6 @@ public class @SilInput : IInputActionCollection, IDisposable
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @LeftStick.started += instance.OnLeftStick;
-                @LeftStick.performed += instance.OnLeftStick;
-                @LeftStick.canceled += instance.OnLeftStick;
                 @Right.started += instance.OnRight;
                 @Right.performed += instance.OnRight;
                 @Right.canceled += instance.OnRight;
@@ -599,7 +505,6 @@ public class @SilInput : IInputActionCollection, IDisposable
     public NormalActions @Normal => new NormalActions(this);
     public interface INormalActions
     {
-        void OnLeftStick(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
         void OnUp(InputAction.CallbackContext context);

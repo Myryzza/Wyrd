@@ -6,14 +6,6 @@
             "id": "b43f5e45-e197-421a-8aaa-00b2225bef39",
             "actions": [
                 {
-                    "name": "LeftStick",
-                    "type": "Value",
-                    "id": "030cb698-219e-454e-b37c-c8c4b8882548",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Right",
                     "type": "Button",
                     "id": "e5afd90b-fe1e-4689-9fcd-ebb1555aa18e",
@@ -265,80 +257,14 @@
                 },
                 {
                     "name": "",
-                    "id": "62000f32-db9c-4204-a2c7-7dd103941990",
-                    "path": "<Gamepad>/leftStick",
+                    "id": "4776e4bd-07c3-4d9a-b4e8-6cd292b84551",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LeftStick",
+                    "action": "Glide",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2d881517-3dc9-4596-b2de-14dbba93157f",
-                    "path": "<Gamepad>/dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "c1f2c9d3-aa0a-48f8-ad39-a4bc78229984",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "c7a39bfa-78ac-46e1-824a-feef78b7b384",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "88974a5a-9b4c-4422-b832-5f81bf96030d",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "96a97a80-885a-478a-8b94-5a82c8f63d70",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "c17f60d6-1bd7-46a0-a080-035c00b7b309",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -381,17 +307,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "08b3bf65-4721-4140-9a24-e1ded5b63321",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

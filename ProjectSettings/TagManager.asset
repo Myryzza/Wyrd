@@ -10,6 +10,8 @@ TagManager:
   - ResetTrigger
   - Hazard
   - Bashable
+  - Tetherable
+  - Grappleable
   layers:
   - Default
   - TransparentFX

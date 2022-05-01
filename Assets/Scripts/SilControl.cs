@@ -76,6 +76,14 @@ public class SilControl : MonoBehaviour
     private bool bashing;
     public float bashSpeed;
     public float bashVOffset;
+    private RaycastHit2D tetherHit;
+    public float maxTetherDist;
+    private bool grappling;
+    private Vector2 grappleTargetPassive;
+    private Vector2 grappleTargetActive;
+    private bool grappleTargetExists;
+    public float grappleSpeed;
+    private Vector2 grappleDir;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -99,12 +107,14 @@ public class SilControl : MonoBehaviour
     private Vector2 hazardResetPos;
 
     //Input Variables
-    private Vector2 leftStick;
-    private Vector2 rightStick;
+    //private Vector2 leftStick;
+    //private Vector2 rightStick;
     private float right;
     private float left;
     private float up;
     private float down;
+    private Vector2 mousePos;
+    private Vector2 aim;
 
     private float jump;
     private float glide;
@@ -121,8 +131,9 @@ public class SilControl : MonoBehaviour
         //initialise all inputs
         input = new SilInput();
 
-        input.Normal.LeftStick.performed += context => leftStick = context.ReadValue<Vector2>();
-        input.Normal.RightStick.performed += context => rightStick = context.ReadValue<Vector2>();
+        //input.Normal.LeftStick.performed += context => leftStick = context.ReadValue<Vector2>();
+        //input.Normal.RightStick.performed += context => rightStick = context.ReadValue<Vector2>();
+        
 
 
         //input.Normal.Right.performed += RightPerformed;
@@ -188,23 +199,59 @@ public class SilControl : MonoBehaviour
 
     private void TetherPerformed(InputAction.CallbackContext obj)
     {
-        /*
-        if (canBash == true && bashTarget != null)
+        if (Input.GetJoystickNames().Length > 0)
         {
 
-            bashing = true;
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist);
+            
+
+        }
+        else
+        {
+
+            tetherHit = Physics2D.Raycast(silRb.position, mousePos, maxTetherDist);
+            
+
+        }
+        
+
+        if (tetherHit.collider.tag == "Grappleable")
+        {
+
+            grappleTargetPassive = tetherHit.point;
+            grappleTargetExists = true;
+            grappling = true;
+
+        }
+        else
+        {
+
+            grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
+            grappleTargetExists = false;
+
+        }
+
+        /*
+        if (grappleTargetExists)
+        {
+
+            
+            grappling = true;
 
         }
         */
+
     }
     
 
-    /*
+    
     private void DashCanceled(InputAction.CallbackContext obj)
     {
-        throw new System.NotImplementedException();
+
+        grappling = false;
+
     }
-    */
+    
 
     private void DashPerformed(InputAction.CallbackContext obj)
     {
@@ -331,8 +378,43 @@ public class SilControl : MonoBehaviour
     private void Update()
     {
 
+        mousePos = Mouse.current.position.ReadValue();
+        aim = new Vector2(right - left, up - down);
+
+
+        #region tether code
+        /*
+        if (Input.GetJoystickNames().Length > 0)
+        {
+
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist);
+
+        }
+        else
+        {
+
+            tetherHit = Physics2D.Raycast(silRb.position, mousePos, maxTetherDist);
+
+        }
         
-        
+
+        if (tetherHit.collider.tag == "Grappleable")
+        {
+
+            grappleTargetPassive = new Vector2(tetherHit.point.x, tetherHit.point.y);
+            grappleTargetExists = true;
+
+        }
+        else
+        {
+
+            grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
+            grappleTargetExists = false;
+
+        }
+        */
+
+        #endregion
 
         #region ability checks
         //adjusts sil's stats when sil has the climbing claws to allow sil to cling to and jump off walls
@@ -404,6 +486,8 @@ public class SilControl : MonoBehaviour
             }
         }
 
+        grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
+
         #endregion
 
         #endregion
@@ -428,25 +512,25 @@ public class SilControl : MonoBehaviour
                 silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
             }
         }
-        else if (onWall == true)
+        else if (onWall == true && climbDigClaws > 0)
         {
             speedLimitY = wallSlideSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
         }
-        /*
+        
         else
         {
             speedLimitY = normFallSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
         }
-        */
+        
         #endregion
 
         testTimer -= 1;
 
         if (testTimer <= 0)
         {
-            Debug.Log(dashDir);
+            Debug.Log(grappling);
             testTimer = setTestTimer;
         }
 
@@ -530,6 +614,12 @@ public class SilControl : MonoBehaviour
 
             silRb.velocity = new Vector2(0, 0);
             silRb.gravityScale = 0;
+
+        }
+        else if (grappling == true)
+        {
+
+            silRb.velocity = new Vector2(grappleDir.x * grappleSpeed, grappleDir.y * grappleSpeed);
 
         }
 
