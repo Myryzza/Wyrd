@@ -84,6 +84,7 @@ public class SilControl : MonoBehaviour
     private bool grappleTargetExists;
     public float grappleSpeed;
     private Vector2 grappleDir;
+    int tetherLayerMask = 1 << 6;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -204,14 +205,14 @@ public class SilControl : MonoBehaviour
         if (Input.GetJoystickNames().Length > 0)
         {
 
-            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist);
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
             
 
         }
         else
         {
 
-            tetherHit = Physics2D.Raycast(silRb.position, mousePos, maxTetherDist);
+            tetherHit = Physics2D.Raycast(silRb.position, mousePos, maxTetherDist, tetherLayerMask);
             
 
         }
@@ -224,6 +225,8 @@ public class SilControl : MonoBehaviour
             grappleTargetPassive = tetherHit.point;
             grappleTargetExists = true;
             grappling = true;
+            airJumpCount = multiJump;
+            dashCount = maxDash;
 
         }
         else
@@ -253,7 +256,10 @@ public class SilControl : MonoBehaviour
     private void DashCanceled(InputAction.CallbackContext obj)
     {
 
-        grappling = false;
+        if (grappling == true)
+        {
+            grappling = false;
+        }
 
     }
     
@@ -537,7 +543,7 @@ public class SilControl : MonoBehaviour
 
         if (testTimer <= 0)
         {
-            Debug.Log(tetherHit.point);
+            Debug.Log(speedLimitY);
             testTimer = setTestTimer;
         }
 
@@ -648,6 +654,7 @@ public class SilControl : MonoBehaviour
         {
             silRb.position = hazardResetPos;
             silRb.velocity = new Vector2(0, 0);
+            grappling = false;
         }
     }
 
@@ -661,6 +668,12 @@ public class SilControl : MonoBehaviour
             dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Wall"))
+        {
+            onWall = true;
+            airJumpCount = multiJump;
+            dashCount = maxDash;
+        }
+        if (collision.gameObject.tag == ("Grappleable"))
         {
             onWall = true;
             airJumpCount = multiJump;
@@ -681,7 +694,12 @@ public class SilControl : MonoBehaviour
         {
             onWall = false;
         }
-        
+        if (collision.gameObject.tag == ("Grappleable"))
+        {
+            onWall = false;
+        }
+
+
     }
 
     //check whether sil is inside a Hazard Reset Trigger
@@ -691,6 +709,7 @@ public class SilControl : MonoBehaviour
         {
 
             hazardResetPos = collision.gameObject.GetComponent<ResetTriggerScript>().respawnPos;
+            
 
         }
 
@@ -699,6 +718,12 @@ public class SilControl : MonoBehaviour
 
             canBash = true;
             bashTarget = GetComponentInParent<Rigidbody2D>();
+
+        }
+        if (collision.gameObject.tag == "Grappleable")
+        {
+
+            grappling = false;
 
         }
     }
