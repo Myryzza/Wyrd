@@ -358,8 +358,8 @@ MonoBehaviour:
   longJumpDistance: 1.2
   bashSpeed: 30
   bashVOffset: 0.75
-  maxTetherDist: 1000
-  grappleSpeed: 1000
+  maxTetherDist: 100
+  grappleSpeed: 35
   speedLimitX: 6
   speedLimitY: 12
   normFallSpeed: 25
@@ -10429,11 +10429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5236015765596326227, guid: a68b8765a7cd46246af411cb72d5d8d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.830948
+      value: -17.830341
       objectReference: {fileID: 0}
     - target: {fileID: 5236015765596326227, guid: a68b8765a7cd46246af411cb72d5d8d5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.128474
+      value: 4.173404
       objectReference: {fileID: 0}
     - target: {fileID: 5236015765596326227, guid: a68b8765a7cd46246af411cb72d5d8d5, type: 3}
       propertyPath: m_LocalPosition.z

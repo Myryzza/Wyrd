@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1667173698621525446}
   - component: {fileID: 1640957522571976348}
   - component: {fileID: 4463152542584271122}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grapple Trigger
   m_TagString: Grappleable
   m_Icon: {fileID: 0}

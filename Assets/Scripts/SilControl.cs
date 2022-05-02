@@ -195,6 +195,8 @@ public class SilControl : MonoBehaviour
 
         }
 
+        grappling = false;
+
     }
 
     private void TetherPerformed(InputAction.CallbackContext obj)
@@ -215,7 +217,8 @@ public class SilControl : MonoBehaviour
         }
         
 
-        if (tetherHit.collider.tag == "Grappleable")
+        
+        if (tetherHit.collider.gameObject.tag == "Grappleable")
         {
 
             grappleTargetPassive = tetherHit.point;
@@ -230,6 +233,8 @@ public class SilControl : MonoBehaviour
             grappleTargetExists = false;
 
         }
+        
+        
 
         /*
         if (grappleTargetExists)
@@ -488,6 +493,8 @@ public class SilControl : MonoBehaviour
 
         grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
 
+
+
         #endregion
 
         #endregion
@@ -530,9 +537,12 @@ public class SilControl : MonoBehaviour
 
         if (testTimer <= 0)
         {
-            Debug.Log(grappling);
+            Debug.Log(tetherHit.point);
             testTimer = setTestTimer;
         }
+
+        //test ray
+        Debug.DrawRay(silRb.position, aim, Color.red);
 
     }
 

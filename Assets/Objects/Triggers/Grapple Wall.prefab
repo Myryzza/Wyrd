@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2036446885258769937}
   - component: {fileID: -8247310047198549495}
   - component: {fileID: -5126761009114420382}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grapple Wall
   m_TagString: Grappleable
   m_Icon: {fileID: 0}
