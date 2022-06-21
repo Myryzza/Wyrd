@@ -89,13 +89,21 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""284e9449-81e8-4748-b982-5e75bb161d72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""6de27950-189f-4b54-a250-77a96f2ee0ca"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -128,7 +136,7 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8e719592-2cb6-40a3-8762-d9b9a2aab4d6"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -161,7 +169,7 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2de3b115-a53d-460c-933e-9547138b9455"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -194,7 +202,7 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5a9bde72-9228-4b66-9642-2a5ca7e40b89"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -282,7 +290,7 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f0b9b0ce-458a-40c3-bcc6-6d5b1f12a10b"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -314,19 +322,8 @@ public class @SilInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2561d679-d743-4d37-ae65-475afff3fd8c"",
-                    ""path"": ""<VirtualMouse>/radius"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RightStick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f1d45d54-3757-45a0-a139-513cc0228609"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -342,6 +339,28 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tether"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fda1f681-3cb0-465a-a10f-6cc4fd133f56"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d09d8381-8d56-43e8-a030-4debe10db73e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -361,6 +380,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         m_Normal_Dash = m_Normal.FindAction("Dash", throwIfNotFound: true);
         m_Normal_RightStick = m_Normal.FindAction("RightStick", throwIfNotFound: true);
         m_Normal_Tether = m_Normal.FindAction("Tether", throwIfNotFound: true);
+        m_Normal_Attack = m_Normal.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -419,6 +439,7 @@ public class @SilInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Normal_Dash;
     private readonly InputAction m_Normal_RightStick;
     private readonly InputAction m_Normal_Tether;
+    private readonly InputAction m_Normal_Attack;
     public struct NormalActions
     {
         private @SilInput m_Wrapper;
@@ -432,6 +453,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_Normal_Dash;
         public InputAction @RightStick => m_Wrapper.m_Normal_RightStick;
         public InputAction @Tether => m_Wrapper.m_Normal_Tether;
+        public InputAction @Attack => m_Wrapper.m_Normal_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +490,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Tether.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
                 @Tether.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
                 @Tether.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnTether;
+                @Attack.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -499,6 +524,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Tether.started += instance.OnTether;
                 @Tether.performed += instance.OnTether;
                 @Tether.canceled += instance.OnTether;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -514,5 +542,6 @@ public class @SilInput : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnRightStick(InputAction.CallbackContext context);
         void OnTether(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

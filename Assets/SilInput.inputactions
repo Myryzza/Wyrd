@@ -76,13 +76,21 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "284e9449-81e8-4748-b982-5e75bb161d72",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "6de27950-189f-4b54-a250-77a96f2ee0ca",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -115,7 +123,7 @@
                 {
                     "name": "",
                     "id": "8e719592-2cb6-40a3-8762-d9b9a2aab4d6",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -148,7 +156,7 @@
                 {
                     "name": "",
                     "id": "2de3b115-a53d-460c-933e-9547138b9455",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -181,7 +189,7 @@
                 {
                     "name": "",
                     "id": "5a9bde72-9228-4b66-9642-2a5ca7e40b89",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -269,7 +277,7 @@
                 {
                     "name": "",
                     "id": "f0b9b0ce-458a-40c3-bcc6-6d5b1f12a10b",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -301,19 +309,8 @@
                 },
                 {
                     "name": "",
-                    "id": "2561d679-d743-4d37-ae65-475afff3fd8c",
-                    "path": "<VirtualMouse>/radius",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f1d45d54-3757-45a0-a139-513cc0228609",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -329,6 +326,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tether",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fda1f681-3cb0-465a-a10f-6cc4fd133f56",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d09d8381-8d56-43e8-a030-4debe10db73e",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

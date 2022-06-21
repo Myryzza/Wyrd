@@ -22,6 +22,7 @@ public class SilControl : MonoBehaviour
     private bool dontSetFriction;
     private int testTimer;
     public int setTestTimer;
+    public float rayLength;
 
 
     [Header("Ability Variables")]
@@ -71,10 +72,10 @@ public class SilControl : MonoBehaviour
 
     [Header("Tether Variables")]
     //tether variables
+    public float bashSpeed;
     private bool canBash;
     private Rigidbody2D bashTarget;
     private bool bashing;
-    public float bashSpeed;
     public float bashVOffset;
     private RaycastHit2D tetherHit;
     public float maxTetherDist;
@@ -85,6 +86,7 @@ public class SilControl : MonoBehaviour
     public float grappleSpeed;
     private Vector2 grappleDir;
     int tetherLayerMask = 1 << 6;
+    public int tetherCheckFlipLength;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -104,6 +106,13 @@ public class SilControl : MonoBehaviour
     public float climbFriction;
     public float noClimbFriction;
 
+    [Header("Attack Variables")]
+    //attack variables
+    public GameObject sword;
+    private bool swordAttacking = false;
+    public float swordDuration;
+    private float swordTimer;
+
     //hazard reset variables
     private Vector2 hazardResetPos;
 
@@ -115,12 +124,13 @@ public class SilControl : MonoBehaviour
     private float up;
     private float down;
     private Vector2 mousePos;
-    private Vector2 aim;
+    [HideInInspector] public Vector2 aim;
 
     private float jump;
     private float glide;
     private float dash;
     private float tether;
+    private float attack;
 
     #endregion
 
@@ -179,9 +189,29 @@ public class SilControl : MonoBehaviour
         input.Normal.Tether.performed += context => tether = context.ReadValue<float>();
         input.Normal.Tether.canceled += context => tether = 0;
 
+        input.Normal.Attack.performed += AttackPerformed;
+        input.Normal.Attack.canceled += AttackCanceled;
+        input.Normal.Attack.performed += context => attack = context.ReadValue<float>();
+        input.Normal.Attack.canceled += context => attack = 0;
+
     }
 
-    
+    private void AttackCanceled(InputAction.CallbackContext obj)
+    {
+
+
+
+    }
+
+
+    private void AttackPerformed(InputAction.CallbackContext obj)
+    {
+
+        SwordAttack();
+
+    }
+
+
     private void TetherCanceled(InputAction.CallbackContext obj)
     {
 
@@ -191,7 +221,6 @@ public class SilControl : MonoBehaviour
             bashing = false;
             
             silRb.velocity = new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset);
-            //silRb.AddForce(new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset));
             silRb.gravityScale = resetGravScale;
 
         }
@@ -204,22 +233,48 @@ public class SilControl : MonoBehaviour
     {
         if (Input.GetJoystickNames().Length > 0)
         {
-
-            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
             
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
+
+            //new, test code
+            /*
+            for (int i = 0; i < tetherCheckFlipLength; i++)
+            {
+                Quaternion angle;
+                int sign = 1;
+                angle = Quaternion.AngleAxis(i, Vector3.up);
+
+                tetherHit = Physics2D.Raycast(silRb.position, angle * aim, maxTetherDist, tetherLayerMask);
+
+                sign = sign * -1;
+
+                Debug.DrawRay(silRb.position, angle * aim * 20, Color.red);
+
+
+            }
+            */
+            
+
 
         }
         else
         {
 
-            tetherHit = Physics2D.Raycast(silRb.position, mousePos, maxTetherDist, tetherLayerMask);
+            tetherHit = Physics2D.Raycast(silRb.position, mousePos - silRb.position, maxTetherDist, tetherLayerMask);
             
 
         }
-        
 
-        
-        if (tetherHit.collider.gameObject.tag == "Grappleable")
+
+        if (tetherHit.collider.gameObject.tag == "NotGrappleable")
+        {
+
+            grappling = false;
+            grappleTargetExists = false;
+            grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
+
+        }
+        else if (tetherHit.collider.gameObject.tag == "Grappleable")
         {
 
             grappleTargetPassive = tetherHit.point;
@@ -389,7 +444,7 @@ public class SilControl : MonoBehaviour
     private void Update()
     {
 
-        mousePos = Mouse.current.position.ReadValue();
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aim = new Vector2(right - left, up - down);
 
 
@@ -536,19 +591,43 @@ public class SilControl : MonoBehaviour
             speedLimitY = normFallSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
         }
-        
+
+        #endregion
+
+        #region Attacks
+
+        if (swordAttacking == true)
+        {
+
+
+            swordTimer += Time.deltaTime;
+
+            if (swordTimer >= swordDuration)
+            {
+
+                swordAttacking = false;
+                swordTimer = 0;
+                sword.GetComponent<PolygonCollider2D>().enabled = false;
+                sword.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+
+            }
+
+
+        }
+
         #endregion
 
         testTimer -= 1;
 
         if (testTimer <= 0)
         {
-            Debug.Log(speedLimitY);
+            Debug.Log(mousePos);
             testTimer = setTestTimer;
         }
+        
 
         //test ray
-        Debug.DrawRay(silRb.position, aim, Color.red);
+        Debug.DrawRay(silRb.position, aim.normalized * rayLength, Color.magenta);
 
     }
 
@@ -623,6 +702,8 @@ public class SilControl : MonoBehaviour
             startDashTimer = false;
         }
 
+        #endregion
+
         #region tether mechanics
 
         if (bashing == true)
@@ -638,8 +719,6 @@ public class SilControl : MonoBehaviour
             silRb.velocity = new Vector2(grappleDir.x * grappleSpeed, grappleDir.y * grappleSpeed);
 
         }
-
-        #endregion
 
         #endregion
 
@@ -742,6 +821,19 @@ public class SilControl : MonoBehaviour
 
     }
 
+
+    #endregion
+
+    #region attacks
+
+    private void SwordAttack()
+    {
+
+        swordAttacking = true;
+        sword.GetComponent<PolygonCollider2D>().enabled = true;
+        sword.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+
+    }
 
     #endregion
 

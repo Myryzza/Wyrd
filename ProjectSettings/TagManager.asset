@@ -12,6 +12,7 @@ TagManager:
   - Bashable
   - Tetherable
   - Grappleable
+  - NotGrappleable
   layers:
   - Default
   - TransparentFX
