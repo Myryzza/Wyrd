@@ -13,6 +13,7 @@ TagManager:
   - Tetherable
   - Grappleable
   - NotGrappleable
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Water
   - UI
   - Grapple
-  - 
+  - Attack
   - 
   - 
   - 

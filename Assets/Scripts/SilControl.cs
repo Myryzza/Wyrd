@@ -23,6 +23,10 @@ public class SilControl : MonoBehaviour
     private int testTimer;
     public int setTestTimer;
     public float rayLength;
+    public float kbDist;
+    private bool invincible;
+    public float setIFrameTimer;
+    private float iFrameTimer;
 
 
     [Header("Ability Variables")]
@@ -437,6 +441,9 @@ public class SilControl : MonoBehaviour
         dashCount = maxDash;
         dashTimer = dashLength;
 
+        //initializes iFrames
+        iFrameTimer = setIFrameTimer;
+
     }
     #endregion
 
@@ -447,6 +454,23 @@ public class SilControl : MonoBehaviour
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aim = new Vector2(right - left, up - down);
 
+        //invincibility frames
+        if (invincible == true)
+        {
+
+            iFrameTimer -= Time.deltaTime;
+
+            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 0);
+
+            if (iFrameTimer <= 0)
+            {
+
+                invincible = false;
+                sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
+
+            }
+
+        }
 
         #region tether code
         /*
@@ -619,12 +643,13 @@ public class SilControl : MonoBehaviour
 
         testTimer -= 1;
 
+        /*
         if (testTimer <= 0)
         {
-            Debug.Log(mousePos);
+            Debug.Log("Insert Variable Here");
             testTimer = setTestTimer;
         }
-        
+        */
 
         //test ray
         Debug.DrawRay(silRb.position, aim.normalized * rayLength, Color.magenta);
@@ -735,6 +760,9 @@ public class SilControl : MonoBehaviour
             silRb.velocity = new Vector2(0, 0);
             grappling = false;
         }
+
+        
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -805,6 +833,19 @@ public class SilControl : MonoBehaviour
             grappling = false;
 
         }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+
+            if (invincible == false)
+            {
+                silRb.velocity = new Vector2(collision.GetComponent<Rigidbody2D>().position.x - silRb.position.x, collision.GetComponent<Rigidbody2D>().position.y - silRb.position.y).normalized * -kbDist;
+                invincible = true;
+                iFrameTimer = setIFrameTimer;
+            }
+
+        }
+
     }
 
     //manage collision checks with bashable objects

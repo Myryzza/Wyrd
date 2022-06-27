@@ -42,6 +42,7 @@ public class SwordScript : MonoBehaviour
 
             HealthScript health = collision.GetComponent<HealthScript>();
             health.health -= damage;
+            Debug.Log("Activated");
 
         }
 
