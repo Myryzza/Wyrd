@@ -240,23 +240,7 @@ public class SilControl : MonoBehaviour
             
             tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
 
-            //new, test code
-            /*
-            for (int i = 0; i < tetherCheckFlipLength; i++)
-            {
-                Quaternion angle;
-                int sign = 1;
-                angle = Quaternion.AngleAxis(i, Vector3.up);
-
-                tetherHit = Physics2D.Raycast(silRb.position, angle * aim, maxTetherDist, tetherLayerMask);
-
-                sign = sign * -1;
-
-                Debug.DrawRay(silRb.position, angle * aim * 20, Color.red);
-
-
-            }
-            */
+            
             
 
 
