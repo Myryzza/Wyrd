@@ -84,7 +84,7 @@ public class SilControl : MonoBehaviour
     private RaycastHit2D tetherHit;
     public float maxTetherDist;
     private bool grappling;
-    private Vector2 grappleTargetPassive;
+    public Vector2 grappleTargetPassive;
     private Vector2 grappleTargetActive;
     private bool grappleTargetExists;
     public float grappleSpeed;
@@ -235,23 +235,6 @@ public class SilControl : MonoBehaviour
 
     private void TetherPerformed(InputAction.CallbackContext obj)
     {
-        if (Input.GetJoystickNames().Length > 0)
-        {
-            
-            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
-
-            
-            
-
-
-        }
-        else
-        {
-
-            tetherHit = Physics2D.Raycast(silRb.position, mousePos - silRb.position, maxTetherDist, tetherLayerMask);
-            
-
-        }
 
 
         if (tetherHit.collider.gameObject.tag == "NotGrappleable")
@@ -265,7 +248,6 @@ public class SilControl : MonoBehaviour
         else if (tetherHit.collider.gameObject.tag == "Grappleable")
         {
 
-            grappleTargetPassive = tetherHit.point;
             grappleTargetExists = true;
             grappling = true;
             airJumpCount = multiJump;
@@ -714,6 +696,16 @@ public class SilControl : MonoBehaviour
         #endregion
 
         #region tether mechanics
+
+
+        if (!grappling) {
+
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
+            grappleTargetPassive = tetherHit.point;
+
+        }
+
+        
 
         if (bashing == true)
         {
