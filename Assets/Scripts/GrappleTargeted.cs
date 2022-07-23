@@ -20,10 +20,20 @@ public class GrappleTargeted : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (sil.GetComponent<SilControl>().grappleTargeted)
+        {
 
-        self.transform.position = new Vector2(sil.GetComponent<SilControl>().grappleTargetPassive.x, sil.GetComponent<SilControl>().grappleTargetPassive.y);
+            self.transform.position = new Vector2(sil.GetComponent<SilControl>().grappleTargetPassive.x, sil.GetComponent<SilControl>().grappleTargetPassive.y);
 
+            self.GetComponent<SpriteRenderer>().enabled = false;
 
+        }
+        else {
+
+            self.GetComponent<SpriteRenderer>().enabled = true;
+
+        }
 
     }
 }
