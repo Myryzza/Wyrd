@@ -97,6 +97,14 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b6290f5-98d4-40f5-b11d-0c52efdbd403"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -363,6 +371,28 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88bd8dce-cacc-466a-9e8c-0ea5c2837729"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0359d1a3-c5b5-4c0c-b8ba-a064ecac2bd2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -381,6 +411,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         m_Normal_RightStick = m_Normal.FindAction("RightStick", throwIfNotFound: true);
         m_Normal_Tether = m_Normal.FindAction("Tether", throwIfNotFound: true);
         m_Normal_Attack = m_Normal.FindAction("Attack", throwIfNotFound: true);
+        m_Normal_Throw = m_Normal.FindAction("Throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -440,6 +471,7 @@ public class @SilInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Normal_RightStick;
     private readonly InputAction m_Normal_Tether;
     private readonly InputAction m_Normal_Attack;
+    private readonly InputAction m_Normal_Throw;
     public struct NormalActions
     {
         private @SilInput m_Wrapper;
@@ -454,6 +486,7 @@ public class @SilInput : IInputActionCollection, IDisposable
         public InputAction @RightStick => m_Wrapper.m_Normal_RightStick;
         public InputAction @Tether => m_Wrapper.m_Normal_Tether;
         public InputAction @Attack => m_Wrapper.m_Normal_Attack;
+        public InputAction @Throw => m_Wrapper.m_Normal_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -493,6 +526,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnAttack;
+                @Throw.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
+                @Throw.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
+                @Throw.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -527,6 +563,9 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Throw.started += instance.OnThrow;
+                @Throw.performed += instance.OnThrow;
+                @Throw.canceled += instance.OnThrow;
             }
         }
     }
@@ -543,5 +582,6 @@ public class @SilInput : IInputActionCollection, IDisposable
         void OnRightStick(InputAction.CallbackContext context);
         void OnTether(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }

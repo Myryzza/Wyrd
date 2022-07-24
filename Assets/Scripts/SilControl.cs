@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 #region Notes
 
-//add a dash
+
 
 //make sure to add a state so that the player can jump vertically along walls while pressing into the wall
 
@@ -22,7 +22,7 @@ public class SilControl : MonoBehaviour
     private bool dontSetFriction;
     private int testTimer;
     public int setTestTimer;
-    public float rayLength;
+    public float tetherIndicRayLength;
     public float kbDist;
     private bool invincible;
     public float setIFrameTimer;
@@ -81,6 +81,7 @@ public class SilControl : MonoBehaviour
     private Rigidbody2D bashTarget;
     private bool bashing;
     public float bashVOffset;
+    private GameObject currentBashPoint;
     private RaycastHit2D tetherHit;
     public float maxTetherDist;
     private bool grappling;
@@ -118,6 +119,13 @@ public class SilControl : MonoBehaviour
     public float swordDuration;
     private float swordTimer;
 
+    [Header("Knife Variables")]
+    //knife variables
+    public GameObject knife;
+    private int knifeCount;
+    public int maxKnifeCount;
+    
+
     //hazard reset variables
     private Vector2 hazardResetPos;
 
@@ -136,6 +144,7 @@ public class SilControl : MonoBehaviour
     private float dash;
     private float tether;
     private float attack;
+    private float throwKnife;
 
     #endregion
 
@@ -199,6 +208,32 @@ public class SilControl : MonoBehaviour
         input.Normal.Attack.performed += context => attack = context.ReadValue<float>();
         input.Normal.Attack.canceled += context => attack = 0;
 
+        input.Normal.Throw.performed += ThrowPerformed;
+        input.Normal.Throw.canceled += ThrowCanceled;
+        input.Normal.Throw.performed += context => throwKnife = context.ReadValue<float>();
+        input.Normal.Throw.canceled += context => throwKnife = 0;
+
+    }
+
+
+    private void ThrowCanceled(InputAction.CallbackContext obj)
+    {
+
+
+
+    }
+
+    private void ThrowPerformed(InputAction.CallbackContext obj)
+    {
+
+        if (knifeCount > 0)
+        {
+
+            ThrowKnife();
+
+        }
+        
+
     }
 
     private void AttackCanceled(InputAction.CallbackContext obj)
@@ -228,9 +263,26 @@ public class SilControl : MonoBehaviour
             silRb.velocity = new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset);
             silRb.gravityScale = resetGravScale;
 
+            if (currentBashPoint.transform.parent.gameObject == knife)
+            {
+
+                Destroy(currentBashPoint.transform.parent.gameObject);
+                
+                if (knifeCount < maxKnifeCount)
+                {
+
+                    knifeCount += 1;
+
+                }
+                
+
+            }
+
         }
 
         grappling = false;
+
+        
 
     }
 
@@ -411,6 +463,9 @@ public class SilControl : MonoBehaviour
         //initializes iFrames
         iFrameTimer = setIFrameTimer;
 
+        //initiate knifeCount
+        knifeCount = maxKnifeCount;
+
     }
     #endregion
 
@@ -427,7 +482,7 @@ public class SilControl : MonoBehaviour
 
             iFrameTimer -= Time.deltaTime;
 
-            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 0);
+            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 111);
 
             if (iFrameTimer <= 0)
             {
@@ -619,7 +674,7 @@ public class SilControl : MonoBehaviour
         */
 
         //test ray
-        Debug.DrawRay(silRb.position, aim.normalized * rayLength, Color.magenta);
+        Debug.DrawRay(silRb.position, aim.normalized * tetherIndicRayLength, Color.magenta);
 
     }
 
@@ -815,6 +870,7 @@ public class SilControl : MonoBehaviour
 
             canBash = true;
             bashTarget = GetComponentInParent<Rigidbody2D>();
+            currentBashPoint = collision.gameObject;
 
         }
         if (collision.gameObject.tag == "Grappleable")
@@ -847,6 +903,7 @@ public class SilControl : MonoBehaviour
 
             canBash = false;
             bashTarget = null;
+            currentBashPoint = null;
 
         }
 
@@ -863,6 +920,20 @@ public class SilControl : MonoBehaviour
         swordAttacking = true;
         sword.GetComponent<PolygonCollider2D>().enabled = true;
         sword.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+
+    }
+
+    #endregion
+
+    #region knife stuff
+
+    private void ThrowKnife()
+    {
+
+        var dir = silRb.position - (silRb.position + aim);
+        var angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+        Instantiate(knife, silRb.position, Quaternion.AngleAxis(-angle - 90, Vector3.forward));
+        knifeCount -= 1;
 
     }
 
