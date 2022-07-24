@@ -533,7 +533,7 @@ public class SilControl : MonoBehaviour
 
         if (tether > 0)
         {
-            if (canBash == true && bashTarget != null)
+            if (canBash == true && bashTarget != null && !grappling)
             {
 
                 bashing = true;
