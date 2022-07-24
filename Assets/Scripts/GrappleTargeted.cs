@@ -26,12 +26,12 @@ public class GrappleTargeted : MonoBehaviour
 
             self.transform.position = new Vector2(sil.GetComponent<SilControl>().grappleTargetPassive.x, sil.GetComponent<SilControl>().grappleTargetPassive.y);
 
-            self.GetComponent<SpriteRenderer>().enabled = false;
+            self.GetComponent<SpriteRenderer>().enabled = true;
 
         }
         else {
 
-            self.GetComponent<SpriteRenderer>().enabled = true;
+            self.GetComponent<SpriteRenderer>().enabled = false;
 
         }
 
