@@ -10,6 +10,8 @@ public class KnifeScript : MonoBehaviour
     public GameObject bashTrigger;
     public float speed;
     private bool canMove;
+    public float destroySelfAlarm;
+    public bool destroySelf;
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +30,17 @@ public class KnifeScript : MonoBehaviour
             transform.Translate(1 * speed, 0, 0);
 
         }
-        
 
+
+        if (destroySelfAlarm <= 0)
+        {
+
+            Destroy(self);
+
+        }
+
+        destroySelfAlarm -= Time.deltaTime;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

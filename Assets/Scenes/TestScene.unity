@@ -427,6 +427,7 @@ MonoBehaviour:
   bashSpeed: 30
   bashVOffset: 0.75
   maxTetherDist: 20
+  grappleTargeted: 0
   grappleTargetPassive: {x: 0, y: 0}
   grappleSpeed: 30
   tetherCheckFlipLength: 300
@@ -444,7 +445,7 @@ MonoBehaviour:
   sword: {fileID: 961393388}
   swordDuration: 0.2
   knife: {fileID: 7309727123869706746, guid: 973633205311f184ebf7aa5e880a448e, type: 3}
-  knifeCount: 1
+  maxKnifeCount: 15
   aim: {x: 0, y: 0}
 --- !u!1001 &35334503
 PrefabInstance:
@@ -1909,7 +1910,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &205398321
 PrefabInstance:
@@ -13596,7 +13597,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1784888683 stripped
 Transform:
@@ -15225,7 +15226,7 @@ Transform:
   - {fileID: 1798473181}
   - {fileID: 63257943}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1994539576
 PrefabInstance:

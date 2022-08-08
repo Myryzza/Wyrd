@@ -663,6 +663,14 @@ public class SilControl : MonoBehaviour
 
         #endregion
 
+        #region knife stuff
+
+        GameObject[] knivesOutArray  = GameObject.FindGameObjectsWithTag("Knife");
+
+        knifeCount = maxKnifeCount - knivesOutArray.Length;
+
+        #endregion
+
         testTimer -= 1;
 
         /*
