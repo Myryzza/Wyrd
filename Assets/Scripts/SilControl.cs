@@ -93,6 +93,7 @@ public class SilControl : MonoBehaviour
     private Vector2 grappleDir;
     int tetherLayerMask = 1 << 6;
     public int tetherCheckFlipLength;
+    public float tetherTargetRadius;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -782,7 +783,7 @@ public class SilControl : MonoBehaviour
         else
         {
 
-            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
+            tetherHit = Physics2D.CircleCast(silRb.position, tetherTargetRadius, aim, maxTetherDist, tetherLayerMask);
             grappleTargetPassive = tetherHit.point;
 
             if (tetherHit.collider.gameObject.tag == "NotGrappleable")

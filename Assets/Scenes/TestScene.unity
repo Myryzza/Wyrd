@@ -431,6 +431,7 @@ MonoBehaviour:
   grappleTargetPassive: {x: 0, y: 0}
   grappleSpeed: 30
   tetherCheckFlipLength: 300
+  tetherTargetRadius: 2
   speedLimitX: 6
   speedLimitY: 12
   normFallSpeed: 25
@@ -15974,11 +15975,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 32430557475412351, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.151217
+      value: -26.141188
       objectReference: {fileID: 0}
     - target: {fileID: 32430557475412351, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.661045
+      value: 10.402677
+      objectReference: {fileID: 0}
+    - target: {fileID: 32430557475412352, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
+      propertyPath: orthographic size
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 32430557701945964, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: m_Follow
@@ -15988,6 +15993,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 656947535}
+    - target: {fileID: 32430557701945964, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 32430557701945965, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 9.661045
