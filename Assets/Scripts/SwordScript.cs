@@ -8,6 +8,7 @@ public class SwordScript : MonoBehaviour
     public GameObject sil;
     public Rigidbody2D silRb;
     public Rigidbody2D swordRb;
+    public BoxCollider2D enemyAtkCollider;
     public float offset;
 
     public int damage;
@@ -15,7 +16,7 @@ public class SwordScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -41,8 +42,13 @@ public class SwordScript : MonoBehaviour
         {
 
             HealthScript health = collision.GetComponent<HealthScript>();
-            health.health -= damage;
-            Debug.Log("Activated");
+
+            if (!health.invulnerable) {
+
+                health.health -= damage;
+                Debug.Log("Activated");
+
+            }
 
         }
 

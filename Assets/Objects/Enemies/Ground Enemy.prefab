@@ -175,6 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 24
+  invulnerable: 0
+  iTimerDefault: 2
 --- !u!61 &4901037705390718216
 BoxCollider2D:
   m_ObjectHideFlags: 0
