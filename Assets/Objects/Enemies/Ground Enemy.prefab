@@ -156,12 +156,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22d02995ba839d42bed607bcdd16335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedDefault: 5
+  recoilSpeedDefault: 0
+  kbDist: 20
   dir: 1
   selfRb: {fileID: 4901037705390718219}
   selfCollider: {fileID: 4901037705390718216}
   silCollider: {fileID: 0}
   contactDmg: 0
+  health: {fileID: 4901037705390718217}
 --- !u!114 &4901037705390718217
 MonoBehaviour:
   m_ObjectHideFlags: 0

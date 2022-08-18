@@ -38,15 +38,18 @@ public class SwordScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
-        if (collision.GetComponent<HealthScript>() != null)
+        if (collision.GetComponent<HealthScript>() != null && collision.GetComponent<GroundEnemy>() != null)
         {
 
             HealthScript health = collision.GetComponent<HealthScript>();
+            GroundEnemy enemy = collision.GetComponent<GroundEnemy>();
 
             if (!health.invulnerable) {
 
                 health.health -= damage;
                 Debug.Log("Activated");
+                
+                //enemy.selfRb.velocity = new Vector2(silRb.GetComponent<Rigidbody2D>().position.x - enemy.selfRb.position.x, silRb.GetComponent<Rigidbody2D>().position.y - enemy.selfRb.position.y).normalized * -kbDist;
 
             }
 
