@@ -9,6 +9,10 @@ public class GroundEnemy : MonoBehaviour
     public float recoilSpeedDefault;
     private float speed;
     public float kbDist;
+    public float kbLength;
+    private float kbTimer;
+    public float turnLag;
+    private float turnTimer;
     public int dir;
     public Rigidbody2D selfRb;
     public Collider2D selfCollider;
@@ -31,25 +35,59 @@ public class GroundEnemy : MonoBehaviour
     void Update()
     {
 
-        if (health.invulnerable)
+        if (health.kb)
         {
 
-            selfRb.velocity = new Vector2(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
+             selfRb.velocity = new Vector2(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
+
+             kbTimer = kbLength;
+             health.kb = false;
 
         }
-        else
+
+        if (kbTimer <= 0)
         {
 
-            selfRb.velocity = new Vector2(dir * speed, 0);
+            
+            Vector2 target = new Vector2(dir * speed, 0);
+            
+            Collider2D C = Physics2D.OverlapBox(target, new Vector2(0.1f, 0.1f), 0);
+
+            if (C.gameObject.tag == "Wall" && turnTimer <= 0)
+            {
+
+                dir = -dir;
+
+                selfRb.velocity = new Vector2(dir * speed, 0);
+
+
+                turnTimer = turnLag;
+
+            }
+            else
+            {
+            
+                selfRb.velocity = target;
+
+            }
+
+            //add separate detection for enemy bounds
+
+
+            
 
         }
+
+
+        kbTimer -= Time.deltaTime;
+        turnTimer -= Time.deltaTime;
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall" && kbTimer <= 0)
         {
 
             dir = dir * -1;
@@ -61,7 +99,7 @@ public class GroundEnemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
-        if (collision.gameObject.name == "Enemy Bound")
+        if (collision.gameObject.name == "Enemy Bound" && kbTimer <= 0)
         {
 
             dir = dir * -1;

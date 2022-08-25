@@ -159,6 +159,8 @@ MonoBehaviour:
   speedDefault: 5
   recoilSpeedDefault: 0
   kbDist: 20
+  kbLength: 0.5
+  turnLag: 0.05
   dir: 1
   selfRb: {fileID: 4901037705390718219}
   selfCollider: {fileID: 4901037705390718216}
@@ -177,9 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ab1d59013926545bd3dfc6c9ab4cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 24
+  health: 500
   invulnerable: 0
   iTimerDefault: 2
+  kb: 0
 --- !u!61 &4901037705390718216
 BoxCollider2D:
   m_ObjectHideFlags: 0
