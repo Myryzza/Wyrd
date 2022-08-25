@@ -38,11 +38,11 @@ public class SwordScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
-        if (collision.GetComponent<HealthScript>() != null && collision.GetComponent<GroundEnemy>() != null)
+        if (collision.GetComponent<HealthScript>() != null)
         {
 
             HealthScript health = collision.GetComponent<HealthScript>();
-            GroundEnemy enemy = collision.GetComponent<GroundEnemy>();
+            //GroundEnemy enemy = collision.GetComponent<GroundEnemy>();
 
             if (!health.invulnerable) {
 
