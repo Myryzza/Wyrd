@@ -3063,6 +3063,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5810452036588852462, guid: f4fda69706774b342bf895699e40d2ff, type: 3}
+      propertyPath: invulnerable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8814070225380332984, guid: f4fda69706774b342bf895699e40d2ff, type: 3}
       propertyPath: m_Name
       value: Breakable Wall (3)
@@ -16128,6 +16132,10 @@ PrefabInstance:
       propertyPath: silCollider
       value: 
       objectReference: {fileID: 30267231}
+    - target: {fileID: 4901037705390718218, guid: 818df2aa06df97f41bcf41548cf48263, type: 3}
+      propertyPath: autoTurnWait
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4901037705390718219, guid: 818df2aa06df97f41bcf41548cf48263, type: 3}
       propertyPath: m_Constraints
       value: 4

@@ -11,13 +11,16 @@ public class GroundEnemy : MonoBehaviour
     public float kbDist;
     public float kbLength;
     private float kbTimer;
-    public float turnLag;
-    private float turnTimer;
+    /*public float turnLag;
+    private float turnTimer;*/
+    public float autoTurnWait;
+    private float autoTurnTimer;
     public int dir;
     public Rigidbody2D selfRb;
     public Collider2D selfCollider;
     public Collider2D silCollider;
     public bool contactDmg;
+    private Vector2 posPrev;
 
     public HealthScript health;
 
@@ -26,6 +29,7 @@ public class GroundEnemy : MonoBehaviour
     {
 
         speed = speedDefault;
+        //autoTurnTimer = autoTurnWait;
 
         Physics2D.IgnoreCollision(selfCollider, silCollider, true);
 
@@ -35,62 +39,129 @@ public class GroundEnemy : MonoBehaviour
     void Update()
     {
 
+        Vector3 target = new Vector3(dir * speed, 0);
+
         if (health.kb)
         {
 
-             selfRb.velocity = new Vector2(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
+            target = new Vector3(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
 
-             kbTimer = kbLength;
-             health.kb = false;
+            selfRb.velocity = target;
+
+
+            /*
+
+            Vector2 target = new Vector2(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
+
+            
+            RaycastHit2D R = Physics2D.Raycast(selfRb.position, new Vector2(dir, 0), kbDist);
+
+            if (R.collider.tag == "Wall" && turnTimer <= 0)
+            {
+
+                reverse();
+
+            }
+
+
+            selfRb.velocity = target;
+            */
+
+            health.kb = false;
+            kbTimer = kbLength;
+
+            /*
+            autoTurnTimer = autoTurnWait;
+            turnTimer = turnLag;
+            */
+
 
         }
+
 
         if (kbTimer <= 0)
         {
 
-            
-            Vector2 target = new Vector2(dir * speed, 0);
-            
-            Collider2D C = Physics2D.OverlapBox(target, new Vector2(0.1f, 0.1f), 0);
-
-            if (C.gameObject.tag == "Wall" && turnTimer <= 0)
+            /*
+            if (autoTurnTimer <= 0)
             {
 
-                dir = -dir;
-
-                selfRb.velocity = new Vector2(dir * speed, 0);
-
-
-                turnTimer = turnLag;
+                reverse();
 
             }
-            else
+
+
+            Vector2 target = new Vector2(dir * speed, 0);*/
+
+
+             /*RaycastHit2D R = Physics2D.(selfCollider.transform.position, new Vector2(dir, 0), 1f);
+
+             if (R.collider.tag == "Wall" && turnTimer <= 0)
+             {
+             //BoxCollider2D C = Physics2D.BoxCast
+
+                 dir = -dir;
+
+                 selfRb.velocity = new Vector2(dir * speed, 0);
+
+
+                 turnTimer = turnLag;
+
+             }
+             else
+             {*/
+
+            selfRb.velocity = target;
+
+
+            if (autoTurnTimer <= 0)
             {
-            
-                selfRb.velocity = target;
+
+                reverse();
 
             }
+
+            //}
 
             //add separate detection for enemy bounds
-
-
-            
 
         }
 
 
+        
+
+
+        /*if (posPrev.x == selfRb.position.x)
+        {
+            autoTurnTimer -= Time.deltaTime;
+        }
+
+        posPrev = selfRb.position;
+        */
+
+        autoTurnTimer -= Time.deltaTime;
         kbTimer -= Time.deltaTime;
-        turnTimer -= Time.deltaTime;
+        //turnTimer -= Time.deltaTime;
+
+
+
+        /*if (bump(target))
+        {
+
+            reverse();
+
+        }*/
+        
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        if (collision.gameObject.tag == "Wall" && kbTimer <= 0)
+        if (collision.gameObject.tag == "Wall")
         {
 
-            dir = dir * -1;
+            reverse();
 
         }
 
@@ -98,14 +169,38 @@ public class GroundEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.gameObject.name == "Enemy Bound" && kbTimer <= 0)
+
+        if (collision.gameObject.name == "Enemy Bound")
         {
 
-            dir = dir * -1;
+            reverse();
 
         }
 
     }
 
+    /*private bool bump(Vector3 target)
+    {
+
+        Collider2D g = Physics2D.OverlapBox(selfRb.transform.position + target, new Vector2(0.5f, 0.5f), 0);
+        return (g.gameObject.tag == "Wall");
+
+    }*/
+
+    private void reverse()
+    {
+
+        dir = -dir;
+
+        
+        autoTurnTimer = autoTurnWait;
+        //turnTimer = turnLag;
+        
+
+    }
+
 }
+
+
+
+

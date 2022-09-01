@@ -159,8 +159,8 @@ MonoBehaviour:
   speedDefault: 5
   recoilSpeedDefault: 0
   kbDist: 20
-  kbLength: 0.5
-  turnLag: 0.05
+  kbLength: 0.4
+  autoTurnWait: 1.5
   dir: 1
   selfRb: {fileID: 4901037705390718219}
   selfCollider: {fileID: 4901037705390718216}
