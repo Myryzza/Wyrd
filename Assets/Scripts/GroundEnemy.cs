@@ -39,12 +39,12 @@ public class GroundEnemy : MonoBehaviour
     void Update()
     {
 
-        Vector3 target = new Vector3(dir * speed, 0);
+        Vector2 target = new Vector2(dir * speed, 0);
 
         if (health.kb)
         {
 
-            target = new Vector3(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
+            target = new Vector2(silCollider.GetComponent<Rigidbody2D>().position.x - selfRb.position.x, silCollider.GetComponent<Rigidbody2D>().position.y - selfRb.position.y).normalized * -kbDist;
 
             selfRb.velocity = target;
 
@@ -114,6 +114,10 @@ public class GroundEnemy : MonoBehaviour
             selfRb.velocity = target;
 
 
+
+            autoTurnTimer -= Time.deltaTime;
+
+
             if (autoTurnTimer <= 0)
             {
 
@@ -139,7 +143,6 @@ public class GroundEnemy : MonoBehaviour
         posPrev = selfRb.position;
         */
 
-        autoTurnTimer -= Time.deltaTime;
         kbTimer -= Time.deltaTime;
         //turnTimer -= Time.deltaTime;
 
