@@ -31,9 +31,9 @@ public class SilControl : MonoBehaviour
 
     [Header("Ability Variables")]
     //item/ability variables 
-    public int climbDigClaws; //stores whether Sil has the climbing claws or the digging claws or neither
+    //public int climbDigClaws; //stores whether Sil has the climbing claws or the digging claws or neither
                               //(0 = neither, 1 = climbing claws, and 2 = both the climbing claws and the digging claws)
-    public int multiJump; //stores how many extra air jumps the player has
+    //public int multiJump; //stores how many extra air jumps the player has
 
     [Header("Collision Variables")]
     [HideInInspector] public bool onFloor = false; //notes whether Sil is touching a floor object
@@ -304,7 +304,7 @@ public class SilControl : MonoBehaviour
 
             grappleTargetExists = true;
             grappling = true;
-            airJumpCount = multiJump;
+            airJumpCount = GameplayCtrl.multiJump;
             dashCount = maxDash;
 
         }
@@ -377,7 +377,7 @@ public class SilControl : MonoBehaviour
     {
 
 
-        if ((onFloor == true || floorCoyoteTime > 0) || ((onWall == true || wallCoyoteTime > 0) && climbDigClaws >= 1))
+        if ((onFloor == true || floorCoyoteTime > 0) || ((onWall == true || wallCoyoteTime > 0) && GameplayCtrl.climbDigClaws >= 1))
         {
             startJump = true;
             floorCoyoteTime = 1;
@@ -531,11 +531,11 @@ public class SilControl : MonoBehaviour
 
         #region ability checks
         //adjusts sil's stats when sil has the climbing claws to allow sil to cling to and jump off walls
-        if (climbDigClaws == 0)
+        if (GameplayCtrl.climbDigClaws == 0)
         {
             sil.GetComponent<Collider2D>().sharedMaterial.friction = noClimbFriction;
         }
-        if (climbDigClaws >= 1)
+        if (GameplayCtrl.climbDigClaws >= 1)
         {
             sil.GetComponent<Collider2D>().sharedMaterial.friction = climbFriction;
         }
@@ -587,19 +587,32 @@ public class SilControl : MonoBehaviour
 
         #region tether stuff
 
-        if (tether > 0)
+        if (GameplayCtrl.bash)
         {
-            if (canBash == true && bashTarget != null && !grappling)
+
+            if (tether > 0)
             {
+                if (canBash == true && bashTarget != null && !grappling)
+                {
 
-                bashing = true;
-                airJumpCount = multiJump;
-                dashCount = maxDash;
+                    bashing = true;
+                    airJumpCount = GameplayCtrl.multiJump;
+                    dashCount = maxDash;
 
+                }
             }
+
         }
 
-        grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
+        if (GameplayCtrl.tether)
+        {
+
+            grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
+
+        }
+
+       
+
 
 
 
@@ -627,7 +640,7 @@ public class SilControl : MonoBehaviour
                 silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
             }
         }
-        else if (onWall == true && climbDigClaws > 0)
+        else if (onWall == true && GameplayCtrl.climbDigClaws > 0)
         {
             speedLimitY = wallSlideSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
@@ -708,6 +721,7 @@ public class SilControl : MonoBehaviour
             {
                 silRb.velocity = new Vector2(silRb.velocity.x - setWalkMoveSpeed, silRb.velocity.y);
             }
+
         }
         
         if (silRb.velocity.x > 0.1)
@@ -767,14 +781,14 @@ public class SilControl : MonoBehaviour
 
         
 
-        if (bashing == true)
+        if (bashing == true && GameplayCtrl.bash == true)
         {
 
             silRb.velocity = new Vector2(0, 0);
             silRb.gravityScale = 0;
 
         }
-        else if (grappling == true)
+        else if (grappling == true && GameplayCtrl.tether == true)
         {
 
             silRb.velocity = new Vector2(grappleDir.x * grappleSpeed, grappleDir.y * grappleSpeed);
@@ -825,19 +839,19 @@ public class SilControl : MonoBehaviour
         if (collision.gameObject.tag == ("Floor"))
         {
             onFloor = true;
-            airJumpCount = multiJump;
+            airJumpCount = GameplayCtrl.multiJump;
             dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Wall"))
         {
             onWall = true;
-            airJumpCount = multiJump;
+            airJumpCount = GameplayCtrl.multiJump;
             dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Grappleable"))
         {
             onWall = true;
-            airJumpCount = multiJump;
+            airJumpCount = GameplayCtrl.multiJump;
             dashCount = maxDash;
         }
     }
