@@ -24,7 +24,7 @@ public class SilControl : MonoBehaviour
     public int setTestTimer;
     public float tetherIndicRayLength;
     public float kbDist;
-    private bool invincible;
+    public bool invincible;
     public float setIFrameTimer;
     private float iFrameTimer;
 
@@ -491,6 +491,11 @@ public class SilControl : MonoBehaviour
                 invincible = false;
                 sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
 
+
+                GameplayCtrl.silInv = false;
+
+                Debug.Log("uninvincible");
+
             }
 
         }
@@ -777,9 +782,7 @@ public class SilControl : MonoBehaviour
         #region tether mechanics
 
 
-        
 
-        
 
         if (bashing == true && GameplayCtrl.bash == true)
         {
@@ -911,6 +914,8 @@ public class SilControl : MonoBehaviour
                 silRb.velocity = new Vector2(collision.GetComponent<Rigidbody2D>().position.x - silRb.position.x, collision.GetComponent<Rigidbody2D>().position.y - silRb.position.y).normalized * -kbDist;
                 invincible = true;
                 iFrameTimer = setIFrameTimer;
+
+                GameplayCtrl.silInv = true;
             }
 
         }

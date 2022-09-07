@@ -7,6 +7,16 @@ public class GameplayCtrl : MonoBehaviour
 
     #region variables
 
+    public GameObject sil;
+
+    //game state vars
+    private int silHealthMax = 6;
+    public static int silHealth = 6;
+    //silInv set in SilControl.cs
+    public static bool silInv;
+    private bool hurt;
+
+
     //ability vars
     public static int climbDigClaws = 2; //stores whether Sil has the climbing claws or the digging claws or neither
                                      //(0 = neither, 1 = climbing claws, and 2 = both the climbing claws and the digging claws)
@@ -28,6 +38,28 @@ public class GameplayCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (silInv)
+        {
+
+            if (!hurt) {
+
+                silHealth -= 1;
+
+                hurt = true;
+
+            }
+
+            Debug.Log(silHealth);
+
+        }
+        else
+        {
+
+            hurt = false;
+            Debug.Log("deactivated");
+
+        }
         
     }
 }
