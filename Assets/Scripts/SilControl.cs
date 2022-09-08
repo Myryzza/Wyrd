@@ -28,12 +28,20 @@ public class SilControl : MonoBehaviour
     public float setIFrameTimer;
     private float iFrameTimer;
 
+    [Header("Camera Variables")]
+    //camera variables
+    public Rigidbody2D lookTarget;
+
 
     [Header("Ability Variables")]
     //item/ability variables 
     public int climbDigClaws; //stores whether Sil has the climbing claws or the digging claws or neither
                               //(0 = neither, 1 = climbing claws, and 2 = both the climbing claws and the digging claws)
     public int multiJump; //stores how many extra air jumps the player has
+
+    [Header("Camera Variables")]
+    //camera variables
+    public GameObject cameraFocus;
 
     [Header("Collision Variables")]
     [HideInInspector] public bool onFloor = false; //notes whether Sil is touching a floor object
@@ -76,6 +84,8 @@ public class SilControl : MonoBehaviour
 
     [Header("Tether Variables")]
     //tether variables
+    public bool hasTether;
+    public bool hasBash;
     public float bashSpeed;
     private bool canBash;
     private Rigidbody2D bashTarget;
@@ -290,31 +300,36 @@ public class SilControl : MonoBehaviour
     private void TetherPerformed(InputAction.CallbackContext obj)
     {
 
-
-        if (tetherHit.collider.gameObject.tag == "NotGrappleable")
+        if (hasTether == true)
         {
 
-            grappling = false;
-            grappleTargetExists = false;
-            grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
+            if (tetherHit.collider.gameObject.tag == "NotGrappleable")
+            {
 
-        }
-        else if (tetherHit.collider.gameObject.tag == "Grappleable")
-        {
+                grappling = false;
+                grappleTargetExists = false;
+                grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
 
-            grappleTargetExists = true;
-            grappling = true;
-            airJumpCount = multiJump;
-            dashCount = maxDash;
+            }
+            else if (tetherHit.collider.gameObject.tag == "Grappleable")
+            {
 
-        }
-        else
-        {
+                grappleTargetExists = true;
+                grappling = true;
+                airJumpCount = multiJump;
+                dashCount = maxDash;
 
-            grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
-            grappleTargetExists = false;
+            }
+            else
+            {
 
-        }
+                grappleTargetPassive = new Vector2(silRb.position.x, silRb.position.y);
+                grappleTargetExists = false;
+
+            }
+
+        }    
+        
         
         
 
@@ -453,6 +468,9 @@ public class SilControl : MonoBehaviour
     void Start()
     {
 
+        //initialises gravity
+        //silRb.gravityScale = resetGravScale;
+
         //initializes the jump timer
         silRb = sil.GetComponent<Rigidbody2D>();
         jumpTimer = setJumpTimer;
@@ -587,7 +605,7 @@ public class SilControl : MonoBehaviour
 
         #region tether stuff
 
-        if (tether > 0)
+        if (hasBash == true)
         {
             if (canBash == true && bashTarget != null && !grappling)
             {
@@ -901,6 +919,13 @@ public class SilControl : MonoBehaviour
 
         }
 
+        if (collision.gameObject.tag == "LookTrigger")
+        {
+
+            lookTarget = collision.gameObject.GetComponentInChildren<Rigidbody2D>();
+
+        }
+
     }
 
     //manage collision checks with bashable objects
@@ -913,6 +938,13 @@ public class SilControl : MonoBehaviour
             canBash = false;
             bashTarget = null;
             currentBashPoint = null;
+
+        }
+
+        if (collision.gameObject.tag == "LookTrigger")
+        {
+
+            lookTarget = silRb;
 
         }
 

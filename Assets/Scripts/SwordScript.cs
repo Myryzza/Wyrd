@@ -8,6 +8,8 @@ public class SwordScript : MonoBehaviour
     public GameObject sil;
     public Rigidbody2D silRb;
     public Rigidbody2D swordRb;
+    public Collider2D selfCollider;
+    public BoxCollider2D enemyAttackCollider;
     public float offset;
 
     public int damage;
@@ -15,7 +17,10 @@ public class SwordScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
+        Physics2D.IgnoreCollision(selfCollider, enemyAttackCollider, true);
+
     }
 
     // Update is called once per frame

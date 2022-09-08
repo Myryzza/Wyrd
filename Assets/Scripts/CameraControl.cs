@@ -19,7 +19,7 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
 
-        transform.position = new Vector3(sil.transform.position.x, sil.transform.position.y, camZ );
+        transform.position = new Vector3(sil.transform.position.x, sil.transform.position.y, 0);
 
     }
 

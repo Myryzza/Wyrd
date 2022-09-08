@@ -15,6 +15,7 @@ TagManager:
   - NotGrappleable
   - Enemy
   - Knife
+  - LookTrigger
   layers:
   - Default
   - TransparentFX
