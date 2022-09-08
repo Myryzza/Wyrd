@@ -7,14 +7,15 @@ public class GameplayCtrl : MonoBehaviour
 
     #region variables
 
-    public GameObject sil;
+    public Rigidbody2D silRb;
 
     //game state vars
-    private int silHealthMax = 6;
-    public static int silHealth = 6;
+    private int silHealthMax = 1;
+    public static int silHealth = 1;
     //silInv set in SilControl.cs
     public static bool silInv;
     private bool hurt;
+    private Vector2 playerSpawn;
 
 
     //ability vars
@@ -32,6 +33,8 @@ public class GameplayCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        playerSpawn = new Vector2(silRb.position.x, silRb.position.y);
 
     }
 
@@ -60,6 +63,24 @@ public class GameplayCtrl : MonoBehaviour
             Debug.Log("deactivated");
 
         }
+
+
+        if (silHealth <= 0)
+        {
+
+            RespawnPlayer(playerSpawn);
+
+        }
         
     }
+
+    void RespawnPlayer(Vector2 pos)
+    {
+
+        silHealth = silHealthMax;
+
+        silRb.position = pos;
+
+    }
+
 }

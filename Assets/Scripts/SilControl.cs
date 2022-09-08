@@ -474,6 +474,7 @@ public class SilControl : MonoBehaviour
     private void Update()
     {
 
+
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aim = new Vector2(right - left, up - down);
 
@@ -710,7 +711,7 @@ public class SilControl : MonoBehaviour
 
         #region walking/midair movement
         //do side to side movement while walking and falling
-        
+
         if (right > 0)
         {
             if (silRb.velocity.x < speedLimitX)
