@@ -474,6 +474,15 @@ public class SilControl : MonoBehaviour
     private void Update()
     {
 
+        if (GameplayCtrl.silHealth <= 0)
+        {
+
+            
+
+            return;
+
+        }
+
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aim = new Vector2(right - left, up - down);
@@ -708,6 +717,16 @@ public class SilControl : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if (GameplayCtrl.silHealth <= 0)
+        {
+
+            
+
+            return;
+
+        }
+
 
         #region walking/midair movement
         //do side to side movement while walking and falling

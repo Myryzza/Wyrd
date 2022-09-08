@@ -79,7 +79,19 @@ public class GameplayCtrl : MonoBehaviour
 
         silHealth = silHealthMax;
 
-        silRb.position = pos;
+        var p = silRb;
+
+        p.position = pos;
+
+        StopAll();
+
+    }
+
+    private void StopAll()
+    {
+
+        var p = silRb;
+        p.velocity = new Vector2(0f, 0f);
 
     }
 
