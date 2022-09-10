@@ -911,6 +911,14 @@ public class SilControl : MonoBehaviour
 
         }
 
+        if (collision.gameObject.tag == "RespawnTrigger")
+        {
+
+            GameplayCtrl.playerSpawn = collision.gameObject.GetComponent<ResetTriggerScript>().respawnPos;
+
+
+        }
+
         if (collision.gameObject.tag == "Bashable")
         {
 

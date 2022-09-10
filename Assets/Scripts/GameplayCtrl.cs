@@ -15,7 +15,7 @@ public class GameplayCtrl : MonoBehaviour
     //silInv set in SilControl.cs
     public static bool silInv;
     private bool hurt;
-    private Vector2 playerSpawn;
+    public static Vector2 playerSpawn;
 
 
     //ability vars
