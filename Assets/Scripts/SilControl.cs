@@ -39,10 +39,6 @@ public class SilControl : MonoBehaviour
                               //(0 = neither, 1 = climbing claws, and 2 = both the climbing claws and the digging claws)
     public int multiJump; //stores how many extra air jumps the player has
 
-    [Header("Camera Variables")]
-    //camera variables
-    public GameObject cameraFocus;
-
     [Header("Collision Variables")]
     [HideInInspector] public bool onFloor = false; //notes whether Sil is touching a floor object
     [HideInInspector] public bool onWall = false; //notes whether sil is touching a wall
@@ -922,7 +918,7 @@ public class SilControl : MonoBehaviour
         if (collision.gameObject.tag == "LookTrigger")
         {
 
-            lookTarget = collision.gameObject.GetComponentInChildren<Rigidbody2D>();
+            lookTarget = collision.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>();
 
         }
 

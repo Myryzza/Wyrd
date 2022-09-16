@@ -11,6 +11,8 @@ public class LookTargetScript : MonoBehaviour
     public float multiplier;
     public Rigidbody2D lookTarget;
     public float moveSpeed;
+    private Vector2 currentSpeed;
+    public Vector2 something;
 
     // Start is called before the first frame update
     void Start()
@@ -22,24 +24,26 @@ public class LookTargetScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
-        lookTarget = sil.GetComponent<SilControl>().lookTarget;
         
+        lookTarget = sil.GetComponent<SilControl>().lookTarget;
+       
         if (lookTarget == silRb)
         {
 
-            selfRb.position = new Vector2(Mathf.Lerp(silRb.position.x, selfRb.position.x, moveSpeed),
-                Mathf.Lerp(silRb.position.y + sil.GetComponent<SilControl>().aim.y * multiplier, selfRb.position.y, moveSpeed));
+           selfRb.position = Vector2.SmoothDamp(selfRb.position, new Vector2(silRb.position.x, silRb.position.y + sil.GetComponent<SilControl>().aim.y * multiplier), ref currentSpeed, moveSpeed);
 
         }
         else
         {
 
-            selfRb.position = new Vector2(Mathf.Lerp(lookTarget.position.x, selfRb.position.x, moveSpeed), Mathf.Lerp(lookTarget.position.y, selfRb.position.y, moveSpeed));
+            //selfRb.position = new Vector2(Mathf.Lerp(lookTarget.position.x, selfRb.position.x, moveSpeed), Mathf.Lerp(lookTarget.position.y, selfRb.position.y, moveSpeed));
+
+            selfRb.position = Vector2.SmoothDamp(selfRb.position, lookTarget.position, ref currentSpeed, moveSpeed);
 
         }
         
+
     }
 }
