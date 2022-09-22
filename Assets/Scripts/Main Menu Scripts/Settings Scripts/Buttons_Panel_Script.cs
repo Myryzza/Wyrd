@@ -5,16 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Buttons_Panel_Script : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void mMainMenu()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void mPlayGame()
