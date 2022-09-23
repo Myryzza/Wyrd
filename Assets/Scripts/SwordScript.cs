@@ -42,11 +42,14 @@ public class SwordScript : MonoBehaviour
         {
 
             HealthScript health = collision.GetComponent<HealthScript>();
+            //GroundEnemy enemy = collision.GetComponent<GroundEnemy>();
 
             if (!health.invulnerable) {
 
                 health.health -= damage;
                 Debug.Log("Activated");
+                
+                //enemy.selfRb.velocity = new Vector2(silRb.GetComponent<Rigidbody2D>().position.x - enemy.selfRb.position.x, silRb.GetComponent<Rigidbody2D>().position.y - enemy.selfRb.position.y).normalized * -kbDist;
 
             }
 

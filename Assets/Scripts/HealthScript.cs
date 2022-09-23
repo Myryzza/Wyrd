@@ -10,6 +10,7 @@ public class HealthScript : MonoBehaviour
     public float iTimerDefault;
     private float iTimer;
     private int healthLast;
+    public bool kb;
 
 
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class HealthScript : MonoBehaviour
         {
 
             invulnerable = true;
+            kb = true;
 
             healthLast = health;
 
