@@ -263,7 +263,6 @@ public class SilControl : MonoBehaviour
             
             silRb.velocity = new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset);
             silRb.gravityScale = resetGravScale;
-
             if (currentBashPoint.transform.parent.gameObject == knife)
             {
 
@@ -492,7 +491,7 @@ public class SilControl : MonoBehaviour
         {
 
             iFrameTimer -= Time.deltaTime;
-
+            
             sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 111);
 
             if (iFrameTimer <= 0)
