@@ -14,6 +14,8 @@ TagManager:
   - Grappleable
   - NotGrappleable
   - Enemy
+  - Knife
+  - RespawnTrigger
   layers:
   - Default
   - TransparentFX
