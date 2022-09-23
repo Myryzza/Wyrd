@@ -154,7 +154,7 @@ MonoBehaviour:
   multiJump: 2
   onFloor: 0
   onWall: 0
-  setWalkMoveSpeed: 5
+  setWalkMoveSpeed: 8
   walkDecel: 1
   jumpHeight: 10
   resetGravScale: 4
