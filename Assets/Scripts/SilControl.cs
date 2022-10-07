@@ -444,7 +444,7 @@ public class SilControl : MonoBehaviour
 
             iFrameTimer -= Time.deltaTime;
 
-            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 150);
+            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 0);
 
             if (iFrameTimer <= 0)
             {
