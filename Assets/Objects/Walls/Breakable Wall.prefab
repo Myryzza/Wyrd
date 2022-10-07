@@ -98,8 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 12
-  invulnerable: 0
-  iTimerDefault: 0
 --- !u!50 &2163963600286454767
 Rigidbody2D:
   serializedVersion: 4
