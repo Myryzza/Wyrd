@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 #region Notes
 
-
+//add a dash
 
 //make sure to add a state so that the player can jump vertically along walls while pressing into the wall
 
@@ -22,18 +22,18 @@ public class SilControl : MonoBehaviour
     private bool dontSetFriction;
     private int testTimer;
     public int setTestTimer;
-    public float tetherIndicRayLength;
+    public float rayLength;
     public float kbDist;
-    public bool invincible;
+    private bool invincible;
     public float setIFrameTimer;
     private float iFrameTimer;
 
 
     [Header("Ability Variables")]
     //item/ability variables 
-    //public int climbDigClaws; //stores whether Sil has the climbing claws or the digging claws or neither
+    public int climbDigClaws; //stores whether Sil has the climbing claws or the digging claws or neither
                               //(0 = neither, 1 = climbing claws, and 2 = both the climbing claws and the digging claws)
-    //public int multiJump; //stores how many extra air jumps the player has
+    public int multiJump; //stores how many extra air jumps the player has
 
     [Header("Collision Variables")]
     [HideInInspector] public bool onFloor = false; //notes whether Sil is touching a floor object
@@ -81,19 +81,16 @@ public class SilControl : MonoBehaviour
     private Rigidbody2D bashTarget;
     private bool bashing;
     public float bashVOffset;
-    private GameObject currentBashPoint;
     private RaycastHit2D tetherHit;
     public float maxTetherDist;
     private bool grappling;
-    public bool grappleTargeted;
-    public Vector2 grappleTargetPassive;
+    private Vector2 grappleTargetPassive;
     private Vector2 grappleTargetActive;
     private bool grappleTargetExists;
     public float grappleSpeed;
     private Vector2 grappleDir;
     int tetherLayerMask = 1 << 6;
     public int tetherCheckFlipLength;
-    public float tetherTargetRadius;
 
     [Header("Speed Limits")]
     //various speed limits
@@ -120,13 +117,6 @@ public class SilControl : MonoBehaviour
     public float swordDuration;
     private float swordTimer;
 
-    [Header("Knife Variables")]
-    //knife variables
-    public GameObject knife;
-    private int knifeCount;
-    public int maxKnifeCount;
-    
-
     //hazard reset variables
     private Vector2 hazardResetPos;
 
@@ -145,7 +135,6 @@ public class SilControl : MonoBehaviour
     private float dash;
     private float tether;
     private float attack;
-    private float throwKnife;
 
     #endregion
 
@@ -209,32 +198,6 @@ public class SilControl : MonoBehaviour
         input.Normal.Attack.performed += context => attack = context.ReadValue<float>();
         input.Normal.Attack.canceled += context => attack = 0;
 
-        input.Normal.Throw.performed += ThrowPerformed;
-        input.Normal.Throw.canceled += ThrowCanceled;
-        input.Normal.Throw.performed += context => throwKnife = context.ReadValue<float>();
-        input.Normal.Throw.canceled += context => throwKnife = 0;
-
-    }
-
-
-    private void ThrowCanceled(InputAction.CallbackContext obj)
-    {
-
-
-
-    }
-
-    private void ThrowPerformed(InputAction.CallbackContext obj)
-    {
-
-        if (knifeCount > 0)
-        {
-
-            ThrowKnife();
-
-        }
-        
-
     }
 
     private void AttackCanceled(InputAction.CallbackContext obj)
@@ -263,31 +226,32 @@ public class SilControl : MonoBehaviour
             
             silRb.velocity = new Vector2((right - left) * bashSpeed, ((up - down) * bashSpeed) * bashVOffset);
             silRb.gravityScale = resetGravScale;
-            if (currentBashPoint.transform.parent.gameObject == knife)
-            {
-
-                Destroy(currentBashPoint.transform.parent.gameObject);
-                
-                if (knifeCount < maxKnifeCount)
-                {
-
-                    knifeCount += 1;
-
-                }
-                
-
-            }
 
         }
 
         grappling = false;
 
-        
-
     }
 
     private void TetherPerformed(InputAction.CallbackContext obj)
     {
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            
+            tetherHit = Physics2D.Raycast(silRb.position, aim, maxTetherDist, tetherLayerMask);
+
+            
+            
+
+
+        }
+        else
+        {
+
+            tetherHit = Physics2D.Raycast(silRb.position, mousePos - silRb.position, maxTetherDist, tetherLayerMask);
+            
+
+        }
 
 
         if (tetherHit.collider.gameObject.tag == "NotGrappleable")
@@ -301,9 +265,10 @@ public class SilControl : MonoBehaviour
         else if (tetherHit.collider.gameObject.tag == "Grappleable")
         {
 
+            grappleTargetPassive = tetherHit.point;
             grappleTargetExists = true;
             grappling = true;
-            airJumpCount = GameplayCtrl.multiJump;
+            airJumpCount = multiJump;
             dashCount = maxDash;
 
         }
@@ -376,7 +341,7 @@ public class SilControl : MonoBehaviour
     {
 
 
-        if ((onFloor == true || floorCoyoteTime > 0) || ((onWall == true || wallCoyoteTime > 0) && GameplayCtrl.climbDigClaws >= 1))
+        if ((onFloor == true || floorCoyoteTime > 0) || ((onWall == true || wallCoyoteTime > 0) && climbDigClaws >= 1))
         {
             startJump = true;
             floorCoyoteTime = 1;
@@ -463,25 +428,12 @@ public class SilControl : MonoBehaviour
         //initializes iFrames
         iFrameTimer = setIFrameTimer;
 
-        //initiate knifeCount
-        knifeCount = maxKnifeCount;
-
     }
     #endregion
 
 
     private void Update()
     {
-
-        if (GameplayCtrl.silHealth <= 0)
-        {
-
-            
-
-            return;
-
-        }
-
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aim = new Vector2(right - left, up - down);
@@ -491,19 +443,14 @@ public class SilControl : MonoBehaviour
         {
 
             iFrameTimer -= Time.deltaTime;
-            
-            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 111);
+
+            sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 150);
 
             if (iFrameTimer <= 0)
             {
 
                 invincible = false;
                 sil.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
-
-
-                GameplayCtrl.silInv = false;
-
-                Debug.Log("uninvincible");
 
             }
 
@@ -545,11 +492,11 @@ public class SilControl : MonoBehaviour
 
         #region ability checks
         //adjusts sil's stats when sil has the climbing claws to allow sil to cling to and jump off walls
-        if (GameplayCtrl.climbDigClaws == 0)
+        if (climbDigClaws == 0)
         {
             sil.GetComponent<Collider2D>().sharedMaterial.friction = noClimbFriction;
         }
-        if (GameplayCtrl.climbDigClaws >= 1)
+        if (climbDigClaws >= 1)
         {
             sil.GetComponent<Collider2D>().sharedMaterial.friction = climbFriction;
         }
@@ -601,32 +548,19 @@ public class SilControl : MonoBehaviour
 
         #region tether stuff
 
-        if (GameplayCtrl.bash)
+        if (tether > 0)
         {
-
-            if (tether > 0)
+            if (canBash == true && bashTarget != null)
             {
-                if (canBash == true && bashTarget != null && !grappling)
-                {
 
-                    bashing = true;
-                    airJumpCount = GameplayCtrl.multiJump;
-                    dashCount = maxDash;
+                bashing = true;
+                airJumpCount = multiJump;
+                dashCount = maxDash;
 
-                }
             }
-
         }
 
-        if (GameplayCtrl.tether)
-        {
-
-            grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
-
-        }
-
-       
-
+        grappleDir = new Vector2(grappleTargetPassive.x - silRb.position.x, grappleTargetPassive.y - silRb.position.y).normalized;
 
 
 
@@ -654,7 +588,7 @@ public class SilControl : MonoBehaviour
                 silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
             }
         }
-        else if (onWall == true && GameplayCtrl.climbDigClaws > 0)
+        else if (onWall == true && climbDigClaws > 0)
         {
             speedLimitY = wallSlideSpeed;
             silRb.velocity = new Vector2(silRb.velocity.x, Mathf.Clamp(silRb.velocity.y, -speedLimitY, normUpSpeedLimit));
@@ -691,14 +625,6 @@ public class SilControl : MonoBehaviour
 
         #endregion
 
-        #region knife stuff
-
-        GameObject[] knivesOutArray  = GameObject.FindGameObjectsWithTag("Knife");
-
-        knifeCount = maxKnifeCount - knivesOutArray.Length;
-
-        #endregion
-
         testTimer -= 1;
 
         /*
@@ -710,26 +636,16 @@ public class SilControl : MonoBehaviour
         */
 
         //test ray
-        Debug.DrawRay(silRb.position, aim.normalized * tetherIndicRayLength, Color.magenta);
+        Debug.DrawRay(silRb.position, aim.normalized * rayLength, Color.magenta);
 
     }
 
     void FixedUpdate()
     {
 
-        if (GameplayCtrl.silHealth <= 0)
-        {
-
-            
-
-            return;
-
-        }
-
-
         #region walking/midair movement
         //do side to side movement while walking and falling
-
+        
         if (right > 0)
         {
             if (silRb.velocity.x < speedLimitX)
@@ -745,7 +661,6 @@ public class SilControl : MonoBehaviour
             {
                 silRb.velocity = new Vector2(silRb.velocity.x - setWalkMoveSpeed, silRb.velocity.y);
             }
-
         }
         
         if (silRb.velocity.x > 0.1)
@@ -800,40 +715,17 @@ public class SilControl : MonoBehaviour
 
         #region tether mechanics
 
-
-
-
-        if (bashing == true && GameplayCtrl.bash == true)
+        if (bashing == true)
         {
 
             silRb.velocity = new Vector2(0, 0);
             silRb.gravityScale = 0;
 
         }
-        else if (grappling == true && GameplayCtrl.tether == true)
+        else if (grappling == true)
         {
 
             silRb.velocity = new Vector2(grappleDir.x * grappleSpeed, grappleDir.y * grappleSpeed);
-
-        }
-        else
-        {
-
-            tetherHit = Physics2D.CircleCast(silRb.position, tetherTargetRadius, aim, maxTetherDist, tetherLayerMask);
-            grappleTargetPassive = tetherHit.point;
-
-            if (tetherHit.collider.gameObject.tag == "NotGrappleable")
-            {
-
-                grappleTargeted = false;
-
-            }
-            else
-            {
-
-                grappleTargeted = true;
-
-            }
 
         }
 
@@ -853,6 +745,8 @@ public class SilControl : MonoBehaviour
             grappling = false;
         }
 
+        
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -861,19 +755,19 @@ public class SilControl : MonoBehaviour
         if (collision.gameObject.tag == ("Floor"))
         {
             onFloor = true;
-            airJumpCount = GameplayCtrl.multiJump;
+            airJumpCount = multiJump;
             dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Wall"))
         {
             onWall = true;
-            airJumpCount = GameplayCtrl.multiJump;
+            airJumpCount = multiJump;
             dashCount = maxDash;
         }
         if (collision.gameObject.tag == ("Grappleable"))
         {
             onWall = true;
-            airJumpCount = GameplayCtrl.multiJump;
+            airJumpCount = multiJump;
             dashCount = maxDash;
         }
     }
@@ -910,20 +804,11 @@ public class SilControl : MonoBehaviour
 
         }
 
-        if (collision.gameObject.tag == "RespawnTrigger")
-        {
-
-            GameplayCtrl.playerSpawn = collision.gameObject.GetComponent<ResetTriggerScript>().respawnPos;
-
-
-        }
-
         if (collision.gameObject.tag == "Bashable")
         {
 
             canBash = true;
             bashTarget = GetComponentInParent<Rigidbody2D>();
-            currentBashPoint = collision.gameObject;
 
         }
         if (collision.gameObject.tag == "Grappleable")
@@ -941,8 +826,6 @@ public class SilControl : MonoBehaviour
                 silRb.velocity = new Vector2(collision.GetComponent<Rigidbody2D>().position.x - silRb.position.x, collision.GetComponent<Rigidbody2D>().position.y - silRb.position.y).normalized * -kbDist;
                 invincible = true;
                 iFrameTimer = setIFrameTimer;
-
-                GameplayCtrl.silInv = true;
             }
 
         }
@@ -958,7 +841,6 @@ public class SilControl : MonoBehaviour
 
             canBash = false;
             bashTarget = null;
-            currentBashPoint = null;
 
         }
 
@@ -975,20 +857,6 @@ public class SilControl : MonoBehaviour
         swordAttacking = true;
         sword.GetComponent<PolygonCollider2D>().enabled = true;
         sword.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
-
-    }
-
-    #endregion
-
-    #region knife stuff
-
-    private void ThrowKnife()
-    {
-
-        var dir = silRb.position - (silRb.position + aim);
-        var angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-        Instantiate(knife, silRb.position, Quaternion.AngleAxis(-angle - 90, Vector3.forward));
-        knifeCount -= 1;
 
     }
 
