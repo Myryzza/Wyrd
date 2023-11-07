@@ -150,8 +150,10 @@ MonoBehaviour:
   tetherIndicRayLength: 10
   kbDist: 20
   setIFrameTimer: 1
+  lookTarget: {fileID: 0}
   climbDigClaws: 1
   multiJump: 2
+  hasGlide: 1
   onFloor: 0
   onWall: 0
   setWalkMoveSpeed: 5
@@ -165,7 +167,7 @@ MonoBehaviour:
   maxDash: 2
   dashSpeed: 30
   dashLength: 0.1
-  longJumpDistance: 1.2
+  longJumpDistance: 1.5
   hasTether: 0
   hasBash: 0
   bashSpeed: 30
@@ -191,4 +193,11 @@ MonoBehaviour:
   swordDuration: 0.2
   knife: {fileID: 7309727123869706746, guid: 973633205311f184ebf7aa5e880a448e, type: 3}
   maxKnifeCount: 15
+  look: {x: 0, y: 0}
   aim: {x: 0, y: 0}
+  currentLife: 0
+  maxLife: 0
+  lifeCells:
+  - {fileID: 0}
+  fullCell: {fileID: 0}
+  emptyCell: {fileID: 0}

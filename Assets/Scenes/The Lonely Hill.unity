@@ -2419,7 +2419,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5135223923799067694, guid: 180c7e2d20b28d64a9bba3edce32c9e3, type: 3}
       propertyPath: m_Interpolate
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135223923799067694, guid: 180c7e2d20b28d64a9bba3edce32c9e3, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5135223923799067696, guid: 180c7e2d20b28d64a9bba3edce32c9e3, type: 3}
       propertyPath: m_Color.a
@@ -3186,7 +3190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 32430557475412352, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: field of view
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 32430557475412352, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: near clip plane
@@ -3204,6 +3208,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1311129900}
+    - target: {fileID: 32430557701945964, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 32430557701945964, guid: 920e51deaee7f62479ebbff494934a1a, type: 3}
       propertyPath: m_Lens.NearClipPlane
       value: 0.001
@@ -3687,7 +3695,11 @@ PrefabInstance:
       objectReference: {fileID: 6200000, guid: 256d6e2a9814a464b9aeba6134b5f51b, type: 2}
     - target: {fileID: 5037160206596632625, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
       propertyPath: m_Interpolate
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037160206596632625, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5037160206596632626, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
       propertyPath: sword
@@ -3706,6 +3718,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1759816934}
     - target: {fileID: 5037160206596632626, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
+      propertyPath: speedLimitX
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037160206596632626, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
       propertyPath: climbDigClaws
       value: 1
       objectReference: {fileID: 0}
@@ -3715,7 +3731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5037160206596632626, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
       propertyPath: setWalkMoveSpeed
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5037160206596632627, guid: f91fcc65b0857ec45b4d143f5a4deb1d, type: 3}
       propertyPath: m_RootOrder

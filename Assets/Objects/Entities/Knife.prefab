@@ -149,7 +149,7 @@ MonoBehaviour:
   self: {fileID: 7309727123869706746}
   grappleTrigger: {fileID: 5315288959435446716}
   bashTrigger: {fileID: 1578779076167908879}
-  speed: 0.1
+  speed: 0.25
   destroySelfAlarm: 5
   destroySelf: 0
 --- !u!1001 &913648422576264365
@@ -252,11 +252,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310278245432319586, guid: 270f0311605f30d43941afce5fc9577a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.41
+      value: 4.72
       objectReference: {fileID: 0}
     - target: {fileID: 7310278245432319586, guid: 270f0311605f30d43941afce5fc9577a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18.14
+      value: 25.08
       objectReference: {fileID: 0}
     - target: {fileID: 7310278245432319586, guid: 270f0311605f30d43941afce5fc9577a, type: 3}
       propertyPath: m_LocalPosition.x

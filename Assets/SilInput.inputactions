@@ -92,6 +92,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "LookUp",
+                    "type": "Button",
+                    "id": "cd7b223a-92f2-40f7-aa79-567efd22bdb8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LookDown",
+                    "type": "Button",
+                    "id": "10c5447c-11e3-4191-8e2c-faca109c35c4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LookLeft",
+                    "type": "Button",
+                    "id": "80bf32ae-3dd0-426e-b3d2-8be009ebc6ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LookRight",
+                    "type": "Button",
+                    "id": "442e7183-dc38-4207-a8a2-5cb23e64f6cb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -373,11 +405,55 @@
                 {
                     "name": "",
                     "id": "0359d1a3-c5b5-4c0c-b8ba-a064ecac2bd2",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3ca174f-a4e0-45e6-ad15-2d61a16bcb05",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1094b13-4d65-4658-a517-61f42d7d5d28",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a917f68-d851-4552-a6a1-f94f7ff1b55f",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea5e5331-d755-47db-b4f1-0dab6db2197f",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

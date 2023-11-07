@@ -16,6 +16,7 @@ TagManager:
   - Enemy
   - Knife
   - LookTrigger
+  - Bouncer
   layers:
   - Default
   - TransparentFX

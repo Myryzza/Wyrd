@@ -105,6 +105,38 @@ public class @SilInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd7b223a-92f2-40f7-aa79-567efd22bdb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""10c5447c-11e3-4191-8e2c-faca109c35c4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""80bf32ae-3dd0-426e-b3d2-8be009ebc6ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""442e7183-dc38-4207-a8a2-5cb23e64f6cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -386,11 +418,55 @@ public class @SilInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0359d1a3-c5b5-4c0c-b8ba-a064ecac2bd2"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3ca174f-a4e0-45e6-ad15-2d61a16bcb05"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1094b13-4d65-4658-a517-61f42d7d5d28"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a917f68-d851-4552-a6a1-f94f7ff1b55f"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea5e5331-d755-47db-b4f1-0dab6db2197f"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -412,6 +488,10 @@ public class @SilInput : IInputActionCollection, IDisposable
         m_Normal_Tether = m_Normal.FindAction("Tether", throwIfNotFound: true);
         m_Normal_Attack = m_Normal.FindAction("Attack", throwIfNotFound: true);
         m_Normal_Throw = m_Normal.FindAction("Throw", throwIfNotFound: true);
+        m_Normal_LookUp = m_Normal.FindAction("Look Up", throwIfNotFound: true);
+        m_Normal_LookDown = m_Normal.FindAction("Look Down", throwIfNotFound: true);
+        m_Normal_LookLeft = m_Normal.FindAction("Look Left", throwIfNotFound: true);
+        m_Normal_LookRight = m_Normal.FindAction("Look Right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -472,6 +552,10 @@ public class @SilInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Normal_Tether;
     private readonly InputAction m_Normal_Attack;
     private readonly InputAction m_Normal_Throw;
+    private readonly InputAction m_Normal_LookUp;
+    private readonly InputAction m_Normal_LookDown;
+    private readonly InputAction m_Normal_LookLeft;
+    private readonly InputAction m_Normal_LookRight;
     public struct NormalActions
     {
         private @SilInput m_Wrapper;
@@ -487,6 +571,10 @@ public class @SilInput : IInputActionCollection, IDisposable
         public InputAction @Tether => m_Wrapper.m_Normal_Tether;
         public InputAction @Attack => m_Wrapper.m_Normal_Attack;
         public InputAction @Throw => m_Wrapper.m_Normal_Throw;
+        public InputAction @LookUp => m_Wrapper.m_Normal_LookUp;
+        public InputAction @LookDown => m_Wrapper.m_Normal_LookDown;
+        public InputAction @LookLeft => m_Wrapper.m_Normal_LookLeft;
+        public InputAction @LookRight => m_Wrapper.m_Normal_LookRight;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -529,6 +617,18 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Throw.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnThrow;
+                @LookUp.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookUp;
+                @LookUp.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookUp;
+                @LookUp.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookUp;
+                @LookDown.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
+                @LookDown.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
+                @LookDown.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
+                @LookLeft.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookLeft;
+                @LookLeft.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookLeft;
+                @LookLeft.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookLeft;
+                @LookRight.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookRight;
+                @LookRight.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookRight;
+                @LookRight.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookRight;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -566,6 +666,18 @@ public class @SilInput : IInputActionCollection, IDisposable
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
+                @LookUp.started += instance.OnLookUp;
+                @LookUp.performed += instance.OnLookUp;
+                @LookUp.canceled += instance.OnLookUp;
+                @LookDown.started += instance.OnLookDown;
+                @LookDown.performed += instance.OnLookDown;
+                @LookDown.canceled += instance.OnLookDown;
+                @LookLeft.started += instance.OnLookLeft;
+                @LookLeft.performed += instance.OnLookLeft;
+                @LookLeft.canceled += instance.OnLookLeft;
+                @LookRight.started += instance.OnLookRight;
+                @LookRight.performed += instance.OnLookRight;
+                @LookRight.canceled += instance.OnLookRight;
             }
         }
     }
@@ -583,5 +695,9 @@ public class @SilInput : IInputActionCollection, IDisposable
         void OnTether(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnLookUp(InputAction.CallbackContext context);
+        void OnLookDown(InputAction.CallbackContext context);
+        void OnLookLeft(InputAction.CallbackContext context);
+        void OnLookRight(InputAction.CallbackContext context);
     }
 }
